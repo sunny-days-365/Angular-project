@@ -1,0 +1,4 @@
+package.json
+package-lock.json
+src/app/api-module/
+src/assets/static-page/3rdpartylicenses.html

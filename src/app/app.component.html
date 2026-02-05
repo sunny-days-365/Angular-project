@@ -1,0 +1,25 @@
+<div class="header">
+  <ntc-base-navbar-outer-frame></ntc-base-navbar-outer-frame>
+</div>
+<div class="content">
+  <router-outlet></router-outlet>
+
+  <div class="overlay" *ngIf="isLoading">
+    <div class="spinner-box">
+      <modus-spinner
+        class="overlapped-loading-indicator ntc-project__loading"
+      ></modus-spinner>
+
+      <div class="message">
+        <h3>{{ loadingText }}</h3>
+        <span>{{ subLoadingText }}</span>
+      </div>
+    </div>
+    <div class="background" [style.opacity]="opacity"></div>
+  </div>
+</div>
+
+<!-- Information for distribution management. Delete at the time of final release. -->
+<div style="display: none" id="_BuildInformation_">
+  ____REPLACE_BUILD_INFORMATION____
+</div>
