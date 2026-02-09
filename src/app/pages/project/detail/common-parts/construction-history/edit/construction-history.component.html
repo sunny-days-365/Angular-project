@@ -1,0 +1,159 @@
+<ntc-basic-modal
+  #modal
+  ntcModal
+  headerText="施工履歴取得設定"
+  nextButtonText="保存"
+  (nextClick)="onSaveConstructionHistory()"
+  [nextButtonDisabled]="
+    isLoading ||
+    !projectAccessControlService.isConstructionHistoryAvailable() ||
+    checkLocks ||
+    !isExecutable
+  "
+  cancelButtonText="キャンセル"
+  (cancelClick)="onClose()"
+  width="320px"
+  [noPaddingBody]="true"
+  [openOnInit]="true"
+>
+  <div class="wrap-panel">
+    <div class="option-panel-toggle-button">
+      <modus-button
+        #optionPanelToggleBtn
+        iconOnly="caret_down"
+        color="tertiary"
+        button-style="borderless"
+        (click)="toggleOptionPanel()"
+        [disabled]="isLoading || checkLocks"
+      ></modus-button>
+    </div>
+    <div #optionPanel class="option-panel" *ngIf="showOptionPanel">
+      <div class="box">
+        <div class="checkbox">
+          <modus-checkbox
+            (checkboxClick)="toggleCleanupContructionData()"
+            [checked]="cleanupContructionData"
+          ></modus-checkbox
+          ><label (click)="toggleCleanupContructionData()"
+            >すべての施工履歴を再取得する</label
+          >
+        </div>
+        <div class="message">
+          <p>取得済みの施工履歴を破棄して、初日から再取得します。</p>
+          <p>データ量によって、処理時間が長くなる点にご注意ください。</p>
+          <p>
+            このオプションは、現場のICT建機から施工履歴のアップロードが1日以上滞った場合など、施工履歴の取得結果に抜けが生じた場合に使用してください。
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="notice">
+      <i class="modus-icons" aria-hidden="true">info_outlined</i
+      >この設定は、施工履歴取得時に適用されます。
+    </div>
+
+    <form [formGroup]="form">
+      <div class="input-wrapper">
+        <div class="flex-box">
+          <span class="font-size-small">施工履歴の取得領域を指定する</span>
+          <ntc-modus-switch
+            formControlName="areaEnabled"
+            [checked]="viewModel.areaEnabled"
+          ></ntc-modus-switch>
+        </div>
+      </div>
+
+      <div class="tabs font-size-medium" *ngIf="viewModel.areaEnabled">
+        <div
+          (click)="onToggleTabs(this.viewModel.tabTypeCut)"
+          class="tab"
+          [class.active]="this.viewModel.enabledTabTypeIsCut"
+        >
+          切土条件
+        </div>
+        <div
+          (click)="onToggleTabs(this.viewModel.tabTypeFill)"
+          class="tab"
+          [class.active]="this.viewModel.enabledTabTypeIsFill"
+        >
+          盛土条件
+        </div>
+      </div>
+
+      <div class="input-wrapper" [class.hidden]="!viewModel.areaEnabled">
+        <label>領域</label><span class="required">*</span>
+        <div
+          class="select-wrapper"
+          [class.hidden]="this.viewModel.enabledTabTypeIsFill"
+        >
+          <ntc-basic-multi-select
+            #selectAreaCutComponent
+            formControlName="selectAreaCut"
+            [options]="optionsAreaCut"
+            [placeHolder]="placeHolderAreaCut"
+            [placeHolderType1]="true"
+            [modusComponentsStyle]="true"
+            [iconList]="modelTypeIconList"
+          ></ntc-basic-multi-select>
+        </div>
+        <div
+          class="select-wrapper"
+          [class.hidden]="this.viewModel.enabledTabTypeIsCut"
+        >
+          <ntc-basic-multi-select
+            #selectAreaFillComponent
+            formControlName="selectAreaFill"
+            [options]="optionsAreaFill"
+            [placeHolder]="placeHolderAreaFill"
+            [placeHolderType1]="true"
+            [modusComponentsStyle]="true"
+            [iconList]="modelTypeIconList"
+          ></ntc-basic-multi-select>
+        </div>
+      </div>
+
+      <div class="input-wrapper">
+        <label>ICT 建機</label>
+        <ntc-basic-multi-select
+          #selectICTComponent
+          formControlName="selectICT"
+          [options]="optionsICT"
+          [placeHolder]="placeHolderICT"
+          [placeHolderType1]="true"
+          [modusComponentsStyle]="true"
+          [attr.disabled]="!inputEnabled"
+        ></ntc-basic-multi-select>
+      </div>
+
+      <div class="input-wrapper">
+        <label>高さ</label>
+        <select formControlName="selectElevationType">
+          <option *ngFor="let option of optionsHeight" [value]="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
+
+      <!-- // TODO 2026/01/30 API待ち
+      <div class="input-wrapper">
+        <label>稼働方向</label>
+        <select formControlName="selectDirection">
+          <option
+            *ngFor="let option of optionsDirection"
+            [value]="option.value"
+          >
+            {{ option.text }}
+          </option>
+        </select>
+      </div>
+      -->
+    </form>
+    <ntc-parts-components-basic-error-massage
+      *ngFor="let error of errorList"
+      [message]="error"
+    ></ntc-parts-components-basic-error-massage>
+    <ntc-parts-components-basic-loading-indicator2
+      *ngIf="isLoading || checkLocks"
+    ></ntc-parts-components-basic-loading-indicator2>
+  </div>
+</ntc-basic-modal>
