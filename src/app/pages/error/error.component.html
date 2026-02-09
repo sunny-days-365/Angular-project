@@ -1,0 +1,53 @@
+<div class="contents">
+  <div class="message" [attr.code]="code">
+    <ng-container *ngIf="code === undefined">
+      <h3>指定された現場が見つかりません。</h3>
+      <span>存在しない現場が指定されました。</span>
+    </ng-container>
+
+    <ng-container *ngIf="code === 400">
+      <h3>現場が指定されていません。</h3>
+      <span>アセット管理から開きなおしてください。</span>
+    </ng-container>
+
+    <ng-container *ngIf="code === 401">
+      <ng-container *ngIf="!cause">
+        <h3>認証エラーです。</h3>
+        <span>管理者にお問い合わせください。</span>
+      </ng-container>
+      <ng-container *ngIf="cause">
+        <h3>{{ cause }}</h3>
+        <span></span>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="code === 404">
+      <h3>指定された現場が見つかりません。</h3>
+      <span>存在しない現場が指定されました。</span>
+    </ng-container>
+
+    <ng-container *ngIf="code === 500">
+      <ng-container *ngIf="!feature">
+        <h3>システムエラーが発生しました。</h3>
+        <span>管理者にお問い合わせください。</span>
+      </ng-container>
+      <ng-container *ngIf="feature === ErrorFeatureList.projectList">
+        <h3>現場リストの取得に失敗しました。</h3>
+        <span>アプリケーションを開きなおしてください。</span>
+      </ng-container>
+    </ng-container>
+
+    <ng-container *ngIf="code === 503">
+      <h3>現在、サーバーメンテナンス中です。</h3>
+      <ng-container *ngIf="!cause">
+        <span
+          >メンテナンス中はサービスをご利用いただけません。<br />
+          ご理解とご協力をお願いいたします。</span
+        >
+      </ng-container>
+      <ng-container *ngIf="cause">
+        <span style="white-space: pre-wrap">{{ cause }}</span>
+      </ng-container>
+    </ng-container>
+  </div>
+</div>
