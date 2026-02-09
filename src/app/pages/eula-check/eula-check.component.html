@@ -1,0 +1,11 @@
+<div class="content">
+  <div class="box" *ngIf="noAgreement">
+    <h3>SiteOrchestration をご利用いただくには利用規約への同意が必要です。</h3>
+    <span class="link" (click)="openEula()">利用許諾契約</span>
+  </div>
+  <div class="box" *ngIf="error">
+    <h3>
+      {{ extractAppMessage('SOK1003') }}
+    </h3>
+  </div>
+</div>
