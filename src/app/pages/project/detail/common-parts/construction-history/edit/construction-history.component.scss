@@ -1,0 +1,165 @@
+@import './variables.scss';
+@import './styles.scss';
+@import './modus-styles.scss';
+
+.wrap-panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  font-size: var(--font-size-h6, 12px);
+
+  .option-panel-toggle-button {
+    position: absolute;
+    right: 48px;
+    top: -49px;
+  }
+  .option-panel {
+    width: 390px;
+
+    position: absolute;
+    right: -310px;
+    top: -12px;
+    z-index: 1;
+
+    background-color: #fff;
+
+    padding: 16px;
+
+    border: 1px solid #cbcdd6;
+    box-shadow:
+      0 0 0.06rem rgba(54, 53, 69, 0.2),
+      0.12rem 0.12rem 0.5rem rgba(54, 53, 69, 0.3);
+
+    .box {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 8px;
+
+      .checkbox {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-start;
+
+        label {
+          cursor: pointer;
+          margin: 0 0 1px 0;
+          font-size: $text-ss;
+          color: $trimble-gray;
+        }
+      }
+      .message {
+        font-size: $text-ss;
+        color: $trimble-gray;
+
+        p {
+          margin: 0;
+          padding: 0;
+        }
+      }
+    }
+  }
+}
+
+.no-padding {
+  .ntc-basic-modal__content__body {
+    padding: 0;
+  }
+}
+
+.button-wrapper {
+  position: absolute;
+  right: 16px;
+  bottom: 3%;
+}
+
+.input-wrapper {
+  margin: 16px;
+}
+
+.flex-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  font-size: 18px;
+}
+
+label {
+  display: inline-block;
+  color: #464b52;
+  font-size: 0.75rem;
+  font-weight: 700;
+  margin: 0px 0.25rem 0.25rem 0px;
+}
+
+div.notice {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 16px 16px 16px 16px;
+  font-size: 0.7rem;
+
+  i {
+    font-size: 1.2rem;
+    margin-right: 4px;
+  }
+}
+
+.tabs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #e0e1e9;
+  border-bottom: 1px solid #e0e1e9;
+
+  .tab {
+    padding: 10px;
+    cursor: pointer;
+    width: 100%;
+    border: 0.1875rem solid transparent;
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+
+    &.active {
+      border-color: transparent transparent
+        var(--modus-tab-active-color, #217cbb) transparent;
+      color: var(--modus-tab-active-color, #217cbb);
+      cursor: auto;
+    }
+
+    &:hover {
+      background-color: var(--modus-tab-hover-bg, #dcedf9);
+      color: var(--modus-tab-hover-color, #217cbb);
+    }
+  }
+}
+
+.hidden {
+  display: none;
+  visibility: hidden;
+}
+
+span.required {
+  font-family:
+    Open Sans,
+    -apple-system,
+    BlinkMacSystemFont,
+    Segoe UI,
+    Roboto,
+    Helvetica Neue,
+    Arial,
+    Noto Sans,
+    sans-serif,
+    'Apple Color Emoji',
+    'Segoe UI Emoji',
+    Segoe UI Symbol,
+    'Noto Color Emoji';
+  color: var(--modus-input-validation-error-color, #da212c);
+}

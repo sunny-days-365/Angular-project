@@ -1,0 +1,38 @@
+<ntc-basic-modal
+  #modal
+  ntcModal
+  headerText="施工履歴データ更新"
+  nextButtonText="OK"
+  (nextClick)="onOK()"
+  [nextButtonDisabled]="
+    !projectAccessControlService.isConstructionHistoryAvailable() || checkLocks
+  "
+  cancelButtonText="キャンセル"
+  (cancelClick)="onClose()"
+  (closeClick)="onClose()"
+  width="450px"
+>
+  <div class="content">
+    <div class="buttonRow">
+      <modus-button
+        color="secondary"
+        icon-only="settings"
+        aria-label="Settings"
+        (click)="openEditModal()"
+      ></modus-button>
+    </div>
+    <div class="message">最新の施工履歴データを取得します。</div>
+    <ntc-parts-components-basic-error-massage
+      *ngIf="errorMessage"
+      [message]="errorMessage"
+    ></ntc-parts-components-basic-error-massage>
+  </div>
+</ntc-basic-modal>
+
+<ntc-toolbars-3d-construction-history-edit-modal
+  *ngIf="showEdit"
+  #constructionHistoryEditModal
+  (closeModal)="closeEditModal()"
+  [cleanupContructionData]="cleanupContructionData"
+  (cleanupContructionDataChange)="onCleanupContructionDataChange($event)"
+></ntc-toolbars-3d-construction-history-edit-modal>
