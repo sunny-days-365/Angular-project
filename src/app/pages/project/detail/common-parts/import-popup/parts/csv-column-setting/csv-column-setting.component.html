@@ -1,0 +1,316 @@
+<ntc-basic-modal
+  #modalSetting
+  [width]="'768px'"
+  [minHeight]="'515px'"
+  [noOverlay]="true"
+  [dim]="dimPopup"
+  ntcModal
+  headerText="インポート条件設定"
+  [cancelButtonText]="'キャンセル'"
+  [cancelButtonClass]="'outline'"
+  [cancelButtonDisabled]="isUpdating"
+  [nextButtonText]="'設定'"
+  [nextButtonDisabled]="isLoading || hasError || !!errorMessage"
+  (cancelClick)="closeModal()"
+  (nextClick)="onOk()"
+  (closeClick)="closeModal()"
+>
+  <div class="contents">
+    <div class="tabs">
+      <!-- 上段 -->
+      <div class="header">
+        <div
+          (click)="onChangeTabs(TabSettings.point)"
+          class="tab"
+          [ngClass]="{
+            active: activeTabs === TabSettings.point
+          }"
+        >
+          ポイント設定
+        </div>
+
+        <div
+          (click)="onChangeTabs(TabSettings.pointCloud)"
+          class="tab"
+          [ngClass]="{
+            active: activeTabs === TabSettings.pointCloud
+          }"
+        >
+          点群データ設定
+        </div>
+      </div>
+
+      <!-- 下段 -->
+      <div [hidden]="activeTabs !== TabSettings.point">
+        <form [formGroup]="pointForm">
+          <div class="container">
+            <div class="row">
+              <div class="box">
+                <span>無視する行数</span>
+                <ntc-basic-select
+                  [placeHolder]="'無視する行数'"
+                  formControlName="pointIgnoreRowCount"
+                  [options]="rowOptions"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+            <div class="row">
+              <div class="box">
+                <span>測点名</span>
+                <ntc-basic-select
+                  [placeHolder]="'測点名'"
+                  formControlName="pointNameIndex"
+                  [options]="pointColumnOptionsNoOmit"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+            <div class="row">
+              <div class="box">
+                <span>X座標{{ xSuffix }}</span>
+                <ntc-basic-select
+                  [placeHolder]="'X座標' + xSuffix"
+                  formControlName="pointNorthingIndex"
+                  [options]="pointColumnOptionsNoOmit"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box">
+                <span>Y座標{{ ySuffix }}</span>
+                <ntc-basic-select
+                  [placeHolder]="'Y座標' + ySuffix"
+                  formControlName="pointEastingIndex"
+                  [options]="pointColumnOptionsNoOmit"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box">
+                <span>標高</span>
+                <ntc-basic-select
+                  [placeHolder]="'標高'"
+                  formControlName="pointElevationIndex"
+                  [options]="pointColumnOptions"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box"></div>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div [hidden]="activeTabs !== TabSettings.pointCloud">
+        <form [formGroup]="pointCloudForm">
+          <div class="container">
+            <div class="row">
+              <div class="box">
+                <span>無視する行数</span>
+                <ntc-basic-select
+                  [placeHolder]="'無視する行数'"
+                  formControlName="pointCloudIgnoreRowCount"
+                  [options]="rowOptions"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box"></div>
+              <div class="box"></div>
+              <div class="box"></div>
+            </div>
+            <div class="row">
+              <div class="box">
+                <span>X座標{{ xSuffix }}</span>
+                <ntc-basic-select
+                  [placeHolder]="'X座標' + xSuffix"
+                  formControlName="pointCloudNorthingIndex"
+                  [options]="pointCloudColumnOptionsNoOmit"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box">
+                <span>Y座標{{ ySuffix }}</span>
+                <ntc-basic-select
+                  [placeHolder]="'Y座標' + ySuffix"
+                  formControlName="pointCloudEastingIndex"
+                  [options]="pointCloudColumnOptionsNoOmit"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box">
+                <span>標高</span>
+                <ntc-basic-select
+                  [placeHolder]="'標高'"
+                  formControlName="pointCloudElevationIndex"
+                  [options]="pointCloudColumnOptionsNoOmit"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box"></div>
+            </div>
+            <div class="row">
+              <div class="box">
+                <span>R値</span>
+                <ntc-basic-select
+                  [placeHolder]="'R値'"
+                  formControlName="pointCloudRedIndex"
+                  [options]="pointCloudColumnOptions"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box">
+                <span>G値</span>
+                <ntc-basic-select
+                  [placeHolder]="'G値'"
+                  formControlName="pointCloudGreenIndex"
+                  [options]="pointCloudColumnOptions"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box">
+                <span>B値</span>
+                <ntc-basic-select
+                  [placeHolder]="'B値'"
+                  formControlName="pointCloudBlueIndex"
+                  [options]="pointCloudColumnOptions"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+              <div class="box">
+                <span>反射強度</span>
+                <ntc-basic-select
+                  [placeHolder]="'反射強度'"
+                  formControlName="pointCloudIntensityIndex"
+                  [options]="pointCloudColumnOptions"
+                  [modusComponentsStyle]="true"
+                  [noBorder]="false"
+                  [maxHeight]="360"
+                  [ellipsis]="false"
+                  [tooltipOffset]="15"
+                  [disabled]="isLoading || hasError"
+                ></ntc-basic-select>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <hr />
+
+    <div class="csv">
+      <label>参照ファイル</label>
+      <div class="form">
+        <form [formGroup]="csvForm">
+          <ntc-basic-select
+            [placeHolder]="'CSVファイル'"
+            formControlName="csvFile"
+            [options]="csvFileOptions"
+            [modusComponentsStyle]="true"
+            [noBorder]="false"
+            [maxHeight]="360"
+            [maxWidth]="624"
+            [ellipsis]="true"
+            [tooltipOffset]="15"
+            [disabled]="isLoading"
+          ></ntc-basic-select>
+          <modus-button
+            (click)="openPreview()"
+            [disabled]="
+              isLoading ||
+              hasError ||
+              !!errorMessage ||
+              !!csvSampleErrorMessage ||
+              !csvForm.controls.csvFile.value
+            "
+            >プレビュー</modus-button
+          >
+        </form>
+        <div class="csvSample">
+          <p *ngFor="let line of sampleLines">{{ line }}</p>
+        </div>
+      </div>
+    </div>
+
+    <ntc-parts-components-basic-error-massage
+      *ngIf="csvSampleErrorMessage"
+      [message]="csvSampleErrorMessage"
+    ></ntc-parts-components-basic-error-massage>
+
+    <ntc-parts-components-basic-error-massage
+      *ngIf="errorMessage"
+      [message]="errorMessage"
+    ></ntc-parts-components-basic-error-massage>
+
+    <div class="app-modus-loading-icon-modal" *ngIf="isLoading">
+      <modus-spinner size="2rem"></modus-spinner>
+    </div>
+  </div>
+</ntc-basic-modal>
+
+<ntc-import-popup-csv-preview #modalPreview (emitOnClose)="closePreview()" />
