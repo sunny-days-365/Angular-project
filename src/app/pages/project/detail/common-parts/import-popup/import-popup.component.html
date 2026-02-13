@@ -1,0 +1,52 @@
+<ntc-basic-modal
+  #modalImport
+  [width]="'800px'"
+  [height]="'515px'"
+  [dim]="dimPopup"
+  ntcModal
+  headerText="インポート"
+  [centralizeButton]="centralizeButton"
+  [cancelButtonText]="cancelButtonText"
+  [backButtonText]="backButtonText"
+  [nextButtonText]="nextButtonText"
+  (cancelClick)="onCancel()"
+  (backClick)="onBack()"
+  (nextClick)="onOk()"
+  [cancelButtonDisabled]="isDisableCancelButton"
+  [nextButtonDisabled]="isDisableNextButton"
+  [backButtonDisabled]="isDisableBackButton"
+  [cancelButtonColor]="cancelButtonColor"
+  [cancelButtonClass]="cancelButtonClass"
+  [disableDummyButton]="true"
+>
+  <div class="app-modus-loading-container import-container">
+    <!-- Bread Crumb -->
+    <ntc-import-popup-bread-crumb />
+
+    <!-- Step Select Import Type (Other or PointCloud) -->
+    <div class="content none" [class.show]="isSelectingType">
+      <ntc-import-popup-step-select-type #selectType />
+    </div>
+
+    <!-- Step Select File -->
+    <div class="content none" [class.show]="isSelectingFile">
+      <ntc-import-popup-step-select-file #selectFile [showTab]="showTab" />
+    </div>
+
+    <!-- Step Confirmation -->
+    <div class="content none" [class.show]="isSelectingConfirmation">
+      <ntc-import-popup-step-confirmation #confirmImport />
+    </div>
+
+    <!-- Step Import -->
+    <div class="content none" [class.show]="isSelectingImport">
+      <ntc-import-popup-step-import #import (closeEvent)="close()" />
+    </div>
+
+    <ng-container *ngrxLet="isLoading$ as isLoading">
+      <div class="app-modus-loading-icon-modal loading-modal" *ngIf="isLoading">
+        <modus-spinner size="2rem"></modus-spinner>
+      </div>
+    </ng-container>
+  </div>
+</ntc-basic-modal>

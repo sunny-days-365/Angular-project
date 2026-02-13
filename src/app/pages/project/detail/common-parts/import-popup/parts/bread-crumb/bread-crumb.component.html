@@ -1,0 +1,33 @@
+<div class="breadcrumb">
+  <div class="breadcrumb__list">
+    <ng-template
+      *ngIf="!isSelectingImport; then mainContent; else importContent"
+    ></ng-template>
+    <ng-template #mainContent>
+      <div
+        *ngFor="let crumb of allBreadCrumbs; let i = index"
+        class="breadcrumb__list__item"
+      >
+        <span
+          [class.link]="i < stepIndex"
+          [class.current]="i === stepIndex"
+          [class.disable]="i > stepIndex"
+          (click)="onChangeBreadCrumb(crumb.id, i)"
+        >
+          {{ crumb.label }}</span
+        >
+      </div>
+    </ng-template>
+    <ng-template #importContent>
+      <ng-container *ngIf="importInProgress && !importAborting"
+        ><span>インポート中です ...</span></ng-container
+      >
+      <ng-container *ngIf="importInProgress && importAborting"
+        ><span>処理を中止しています ...</span></ng-container
+      >
+      <ng-container *ngIf="!importInProgress"
+        ><span>インポート完了</span></ng-container
+      >
+    </ng-template>
+  </div>
+</div>

@@ -1,0 +1,75 @@
+@import './modus-styles.scss';
+
+:host {
+  display: block;
+  margin-bottom: 8px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-weight: 500;
+  min-height: 32px; // パンくずリストがない場合の高さ合わせ
+
+  &__list {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    &__item {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+
+      &::after {
+        padding-top: 4px;
+        padding-left: 5px;
+        content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' fill='red' viewBox='0 0 24 24'%3E%3Cpath fill='%2398A2B3' d='M9.29 6.71a.996.996 0 0 0 0 1.41L13.17 12l-3.88 3.88a.996.996 0 1 0 1.41 1.41l4.59-4.59a.996.996 0 0 0 0-1.41L10.7 6.7c-.38-.38-1.02-.38-1.41.01'/%3E%3C/svg%3E");
+        color: unset;
+      }
+
+      &:last-child {
+        color: unset;
+        cursor: default;
+
+        span {
+          text-decoration: none;
+        }
+
+        &::after {
+          content: '';
+        }
+      }
+    }
+  }
+
+  .modus-icons {
+    cursor: pointer;
+  }
+}
+
+span {
+  color: var(--modus-gray-10, #171c1e);
+
+  &.link {
+    cursor: pointer;
+    color: var(--modus-blue-light, #217cbb);
+  }
+  &.current {
+    cursor: default;
+    color: var(--modus-gray-10, #171c1e);
+  }
+  &.disable {
+    cursor: default;
+    color: var(--modus-gray-1, #cbcdd6);
+  }
+}
+
+::ng-deep .breadcrumb__list {
+  align-items: baseline !important;
+}
