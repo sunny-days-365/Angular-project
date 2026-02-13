@@ -1,0 +1,5 @@
+<div class="import-abort-container">
+  <div #abortButton *ngIf="isImportAbortable()" class="abort-import">
+    <button (click)="onAbortClick()">中止</button>
+  </div>
+</div>
