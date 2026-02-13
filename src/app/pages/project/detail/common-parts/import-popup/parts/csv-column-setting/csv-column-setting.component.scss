@@ -1,0 +1,178 @@
+@import '@nikon-trimble-sok/modus-wrapper/styles/modus-styles.scss';
+@import './variables.scss';
+
+:host {
+  width: 100%;
+  height: 100%;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  font-size: $text-ss;
+}
+
+.contents {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .tabs {
+    > .header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+
+      border-bottom: 1px solid var(--modus-gray-1, #cbcdd6);
+
+      .tab {
+        width: 50%;
+        display: flex;
+        justify-content: center;
+
+        padding-top: 8px;
+        padding-bottom: 8px;
+
+        // border-bottom: 2px solid transparent;
+
+        // color: var(--modus-trimble-gray, #252a2e);
+        color: #333333;
+        cursor: pointer;
+
+        font-size: $text-ss;
+        font-weight: 400;
+
+        &.active {
+          // border-bottom: 2px solid $blue;
+          border: none;
+          box-shadow: 0px 2px 0px 0px $blue;
+          color: $blue;
+          font-weight: 600;
+        }
+      }
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      padding-top: 8px;
+
+      .row {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 16px;
+
+        padding: 0;
+        white-space: nowrap;
+
+        .box {
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          justify-content: flex-start;
+          padding: 0;
+
+          span {
+            height: 32px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            font-size: $text-ss;
+          }
+
+          ntc-basic-select {
+            width: 100%;
+          }
+
+          ntc-basic-radio-group {
+            ::ng-deep.ntc-radio-group {
+              .ntc-radio-group__list {
+                .ntc-radio-group__item {
+                  .ntc-radio-group__item__label {
+                    padding: 0;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  hr {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+
+    border-top: 1px solid var(--modus-gray-1, #cbcdd6);
+  }
+
+  .csv {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    max-width: 768px;
+
+    label {
+      font-size: $text-ss;
+    }
+
+    .form {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      form {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+
+        ntc-basic-select {
+          min-width: 350px;
+        }
+      }
+      .csvSample {
+        height: 110px;
+        overflow-x: scroll;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        border: 1px solid $border-light-gray;
+        padding: 8px;
+        p {
+          margin: 0;
+          padding: 0;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
+
+ntc-parts-components-basic-error-massage {
+  display: block;
+  width: 100%;
+  font-size: $text-ss;
+}
+
+.app-modus-loading-icon-modal {
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
