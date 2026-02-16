@@ -1,0 +1,121 @@
+@import '@nikon-trimble-sok/modus-wrapper/styles/modus-styles.scss';
+@import './variables.scss';
+
+:host {
+  width: 336px;
+  height: 100%;
+
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+
+  font-size: $text-ss;
+}
+
+.flexColumn {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0;
+  white-space: nowrap;
+  gap: 8px;
+}
+
+.flexRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.content {
+  width: calc(100% - 16px);
+  height: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 8px;
+
+  form {
+    width: calc(100% - 16px);
+  }
+
+  hr {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid var(--ntc-modal-divider-color);
+    margin: 16px auto;
+  }
+
+  .formRow {
+    &.title {
+      margin-bottom: 16px;
+    }
+
+    div.header {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 8px;
+
+      span {
+        margin-left: 0;
+        margin-right: auto;
+      }
+
+      i.modus-icons {
+        font-size: 18px;
+        cursor: pointer;
+        height: 16px;
+      }
+    }
+
+    div.body {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 8px;
+      margin-top: 8px;
+
+      .flexRow {
+        min-height: 32px;
+        align-items: center;
+
+        span {
+          display: inline-block;
+          min-width: 100px;
+          padding-bottom: 2px;
+        }
+
+        ntc-basic-select {
+          width: 176px;
+        }
+      }
+
+      span,
+      label {
+        font-size: $text-ss;
+      }
+
+      label {
+        &.checkboxLabel {
+          cursor: pointer;
+          padding-bottom: 1px;
+        }
+      }
+    }
+  }
+}
