@@ -1,0 +1,46 @@
+<ntc-parts-basic-table
+  [loading$]="isLoading$"
+  [data]="paginationControl.data"
+  [columns]="columns"
+  [parentComponent]="'surveyController'"
+  (rowClick)="onRowActionClick($event)"
+  (sortChange)="onSortChange($event)"
+  (scrolled)="onScrollDown()"
+  [defaultSortOptions]="defaultSort"
+  [showCheckBoxFirstCol]="false"
+  [isRowActive]="isSelected"
+>
+  <ng-template
+    #ntcTableCellContent
+    let-rowData
+    let-column="column"
+    let-renderColumn="renderColumn"
+  >
+    <ng-container [ngSwitch]="column.id">
+      <!-- Thumbnail cell -->
+      <div *ngSwitchCase="'thumbnail'">
+        <div class="ntc-project-list__thumbnail">
+          <ntc-base-image
+            *ngIf="rowData?.thumbnail !== viewConstant.TCProjectImageDefaultUrl"
+            [url]="rowData?.thumbnail"
+            class="ntc-project-list__thumbnail-img"
+          ></ntc-base-image>
+          <img
+            [src]="viewConstant.localProjectImageDefaultUrl"
+            class="ntc-project-list__thumbnail-img"
+            *ngIf="rowData?.thumbnail === viewConstant.TCProjectImageDefaultUrl"
+          />
+        </div>
+      </div>
+      <!-- Default cell -->
+      <ng-container *ngSwitchDefault>
+        <div
+          class="ntc-project-list__cell"
+          [ntcTooltip]="renderColumn(rowData, column)"
+        >
+          {{ renderColumn(rowData, column) }}
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+</ntc-parts-basic-table>
