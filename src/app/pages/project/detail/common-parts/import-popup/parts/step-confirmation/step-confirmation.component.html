@@ -1,0 +1,31 @@
+<div class="confirm">
+  <div class="confirm__header">インポート条件</div>
+  <div class="confirm__container">
+    <div class="confirm__item_list">
+      <div
+        *ngFor="let data of uploadData"
+        class="confirm__item"
+        [ntcTooltip]="data.name"
+      >
+        <div class="name">
+          <i class="modus-icons" aria-hidden="true">file</i>
+          <span [ntcTooltip]="data.name || ''">
+            {{ data.name }}
+          </span>
+        </div>
+        <span class="size">{{ data.size | fileSize }}</span>
+      </div>
+    </div>
+    <div class="confirm__actions">
+      <ntc-import-popup-step-confirmation-config
+        #config
+        [projectId]="projectId"
+        [uploadData]="uploadData"
+      />
+    </div>
+
+    <ntc-parts-components-basic-loading-indicator2
+      *ngIf="isLoading"
+    ></ntc-parts-components-basic-loading-indicator2>
+  </div>
+</div>

@@ -1,0 +1,8 @@
+<ntc-import-popup-upload-local-upload
+  (fileChange)="fileUploadChange($event)"
+  (removeFile)="fileUploadChange($event)"
+  [multiple]="true"
+  [loading]="inProgress"
+  [fileAcceptExtensionList]="fileAcceptExtensionList"
+  #uploadFile
+></ntc-import-popup-upload-local-upload>

@@ -1,0 +1,107 @@
+<div class="breadcrumb">
+  <ntc-basic-breadcrumb
+    *ngIf="!isFromSurveyController"
+    [crumbs]="crumbs"
+    (crumbClick)="onChangeBreadcrumb($event)"
+  ></ntc-basic-breadcrumb>
+  <ntc-basic-breadcrumb
+    *ngIf="isFromSurveyController"
+    [crumbs]="wmCrumbs"
+    (crumbClick)="onChangeBreadcrumbSurvey($event)"
+  ></ntc-basic-breadcrumb>
+</div>
+
+<ng-container *ngrxLet="isLoading$ as isLoading">
+  <div class="list-file" *ngIf="!isFromSurveyController">
+    <div class="list-file-item" *ngFor="let folder of listFolder">
+      <div
+        *ngIf="folder.type === 'FOLDER'"
+        class="clickable"
+        (click)="handleSelectedFolder(folder)"
+      >
+        <div class="file flex-center">
+          <div class="file-name flex-center">
+            <i class="modus-icons folder_closed" aria-hidden="true"
+              >folder_closed</i
+            >
+            <div class="folderName" [ntcTooltip]="folder.name">
+              {{ folder.name }}
+            </div>
+            <i
+              class="modus-icons"
+              aria-hidden="true"
+              style="cursor: pointer"
+              *ngIf="!folder.hidden"
+              >chevron_right</i
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="folder.type === 'FILE'"
+        class="file flex-center clickable"
+        [ngClass]="{ 'file--active': isFileSelected(folder.id) }"
+        (click)="changeCheckBoxNtcFolderEntry($event, folder)"
+      >
+        <div class="file-name flex-center">
+          <ntc-modus-checkbox
+            [checked]="isFileSelected(folder.id)"
+            [disabled]="isValidFileType([folder])"
+          ></ntc-modus-checkbox>
+          <i class="modus-icons" aria-hidden="true">file</i>
+          <div class="entryName" [ntcTooltip]="folder.name">
+            {{ folder.name }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!isLoading && !listFolder?.length" class="list-file__error">
+      {{ extractAppMessage('SOK2022') }}
+    </div>
+  </div>
+  <div class="list-file" *ngIf="isFromSurveyController">
+    <div *ngFor="let fieldData of fieldDataList">
+      <div
+        *ngIf="fieldData.type === 'folder'"
+        class="clickable"
+        (click)="handleSelectedFieldDataFolder(fieldData)"
+      >
+        <div class="file flex-center">
+          <div class="file-name flex-center">
+            <i class="modus-icons folder_closed" aria-hidden="true"
+              >folder_closed</i
+            >
+            <div class="folderName" [ntcTooltip]="fieldData.entryName ?? ''">
+              {{ fieldData.entryName }}
+            </div>
+            <i class="modus-icons" aria-hidden="true" style="cursor: pointer"
+              >chevron_right</i
+            >
+          </div>
+        </div>
+      </div>
+      <div
+        *ngIf="fieldData.type === 'file'"
+        class="file flex-center clickable"
+        [ngClass]="{
+          'file--active': isFieldDataSelected(fieldData.entryId ?? '')
+        }"
+        (click)="changeCheckboxWMDeviceControllerFieldData($event, fieldData)"
+      >
+        <div class="file-name flex-center">
+          <ntc-modus-checkbox
+            [checked]="isFieldDataSelected(fieldData.entryId ?? '')"
+            [disabled]="isValidFieldDataType(fieldData)"
+          ></ntc-modus-checkbox>
+          <i class="modus-icons" aria-hidden="true">file</i>
+          <div class="entryName" [ntcTooltip]="fieldData.entryName ?? ''">
+            {{ fieldData.entryName }}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="!isLoading && !listFolder?.length" class="list-file__error">
+      {{ extractAppMessage('SOK2022') }}
+    </div>
+  </div>
+</ng-container>
