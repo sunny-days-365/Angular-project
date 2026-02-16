@@ -1,0 +1,201 @@
+<div class="content">
+  <form [formGroup]="form">
+    <div [hidden]="!enablePointCloudScaleTypes">
+      <div class="formRow flexColumn">
+        <div class="header">
+          <span>点群データ変換設定</span>
+          <i
+            class="modus-icons"
+            aria-hidden="true"
+            [ntcTooltip]="
+              '縮尺オプション:<br>・[地上] … 地上レーザースキャナで取得した点群の場合に選択します。<br>・[グリッド] ... 平面直角座標系へ投影済みの場合に選択します。<br>・[その他] ... 不明な場合に選択します。（縮尺は適用されません）<br>その他:・[点群データはジオリファレンス済み] ... 現場の座標系で絶対標定済みの場合はオンに設定します。<br>・[点群データを分類ごとに展開して登録する] ... 点群データに分類情報が含まれる場合（分類済みの場合）に、分類ごとに点群データを登録する場合はオンに設定します。<br>対象ファイル形式は、las/laz/e57/tdx/tzf/pts/ptx です。'
+            "
+            [alwaysShowTooltip]="true"
+            [ntcTooltipAcceptHtml]="true"
+            [ntcTooltipAlignLeft]="true"
+            >info_outlined</i
+          >
+        </div>
+        <div class="body">
+          <div class="flexRow">
+            <span>縮尺オプション</span>
+            <ntc-basic-select
+              [placeHolder]="'縮尺オプション'"
+              formControlName="pointCloudScaleType"
+              [options]="pointCloudScaleType"
+              [modusComponentsStyle]="true"
+              [noBorder]="false"
+              [maxHeight]="360"
+              [maxWidth]="400"
+              [ellipsis]="false"
+              [tooltipOffset]="15"
+            ></ntc-basic-select>
+          </div>
+          <div class="flexColumn">
+            <div class="flexRow">
+              <ntc-modus-checkbox
+                #georeferenced
+                formControlName="georeferenced"
+                (click)="toggleGeoreferenced($event)"
+              ></ntc-modus-checkbox
+              ><label
+                class="checkboxLabel"
+                (click)="toggleGeoreferenced($event)"
+                >点群データはジオリファレンス済み</label
+              >
+            </div>
+            <div class="flexRow">
+              <ntc-modus-checkbox
+                #canCreateMultiple
+                formControlName="canCreateMultiple"
+                (click)="toggleCanCreateMultiple($event)"
+              ></ntc-modus-checkbox
+              ><label
+                class="checkboxLabel"
+                (click)="toggleCanCreateMultiple($event)"
+                >点群データを分類毎に展開して登録する</label
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr *ngIf="enableAutoCADImportSettings && enablePointCloudScaleTypes" />
+
+    <div [hidden]="!enableAutoCADImportSettings">
+      <div class="formRow flexColumn">
+        <div class="header">
+          <span>CADファイル変換設定</span>
+          <i
+            class="modus-icons"
+            aria-hidden="true"
+            [ntcTooltip]="
+              '・[変換方法] ... 図面、境界線のどちらのデータとしてインポートするかを選択します。<br>・[作図単位] ... dxf/dwgファイルの作図単位を選択します。<br>対象ファイル形式は、dxf/dwg/sfc/p21/svl です。'
+            "
+            [alwaysShowTooltip]="true"
+            [ntcTooltipAcceptHtml]="true"
+            [ntcTooltipAlignLeft]="true"
+            >info_outlined</i
+          >
+        </div>
+        <div class="body">
+          <div class="flexRow">
+            <span>変換方法</span>
+            <ntc-basic-select
+              [placeHolder]="'CADファイル変換方法'"
+              formControlName="convertToCad"
+              [options]="convertToCad"
+              [modusComponentsStyle]="true"
+              [noBorder]="false"
+              [maxHeight]="360"
+              [maxWidth]="400"
+              [ellipsis]="false"
+              [tooltipOffset]="15"
+            ></ntc-basic-select>
+          </div>
+          <div class="flexRow">
+            <span>作図単位</span>
+            <ntc-basic-select
+              [placeHolder]="'CADファイル作図単位'"
+              formControlName="linearUnitType"
+              [options]="linearUnitType"
+              [modusComponentsStyle]="true"
+              [noBorder]="false"
+              [maxHeight]="360"
+              [maxWidth]="400"
+              [ellipsis]="false"
+              [tooltipOffset]="15"
+            ></ntc-basic-select>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr
+      *ngIf="
+        enableCsvImportSettings &&
+        (enablePointCloudScaleTypes || enableAutoCADImportSettings)
+      "
+    />
+
+    <div [hidden]="!enableCsvImportSettings">
+      <div class="formRow flexColumn">
+        <div class="header">
+          <span>CSVファイル変換設定</span>
+          <i
+            class="modus-icons"
+            aria-hidden="true"
+            [ntcTooltip]="
+              '・[変換方法] ... ポイント、点群データのどちらのCSVファイルなのかを選択します。<br>・[座標系] ... CSVファイル内の座標が測量系、数学系のどちらで記述されているかを選択します。<br>・[CSVカラム設定] ... CSVファイルの定義情報を設定します。'
+            "
+            [alwaysShowTooltip]="true"
+            [ntcTooltipAcceptHtml]="true"
+            [ntcTooltipAlignLeft]="true"
+            >info_outlined</i
+          >
+        </div>
+        <div class="body">
+          <div class="flexRow">
+            <span>変換方法</span>
+            <ntc-basic-select
+              [placeHolder]="'CSVファイル変換単位'"
+              formControlName="convertToPoint"
+              [options]="convertToPoint"
+              [modusComponentsStyle]="true"
+              [noBorder]="false"
+              [maxHeight]="360"
+              [maxWidth]="400"
+              [ellipsis]="false"
+              [tooltipOffset]="15"
+            ></ntc-basic-select>
+          </div>
+          <div class="flexRow">
+            <span>座標系</span>
+            <ntc-basic-select
+              [placeHolder]="'座標系'"
+              formControlName="csvCoordinateType"
+              [options]="csvCoordinateTypeOtions"
+              [modusComponentsStyle]="true"
+              [noBorder]="false"
+              [maxHeight]="360"
+              [maxWidth]="400"
+              [ellipsis]="false"
+              [tooltipOffset]="15"
+            ></ntc-basic-select>
+          </div>
+          <div class="flexRow">
+            <span>フォーマット</span>
+            <modus-button
+              button-style="borderless"
+              size="small"
+              (click)="openSetting()"
+              >CSVカラム設定</modus-button
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="formRow flexColumn" *ngIf="noSettings">
+      <p>選択されたファイルタイプに必要な設定はありません。</p>
+    </div>
+
+    <!-- <div class="formRow flexColumn">
+      <div class="header">
+        <span>詳細設定</span>
+        <i
+          class="modus-icons"
+          aria-hidden="true"
+          [ntcTooltip]="'その他のインポートオプションを設定します。'"
+          [alwaysShowTooltip]="true"
+          [ntcTooltipAlignLeft]="true"
+          >info_outlined</i
+        >
+      </div>
+      <div class="body"></div>
+    </div> -->
+  </form>
+</div>
+
+<ntc-import-popup-csv-column-setting #modalSettingImport />

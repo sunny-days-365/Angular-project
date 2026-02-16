@@ -1,0 +1,75 @@
+<ntc-basic-modal
+  #modalPreview
+  [width]="'768px'"
+  [minHeight]="'372px'"
+  headerText="CSVプレビュー"
+  [cancelButtonText]="'閉じる'"
+  [cancelButtonClass]="'outline'"
+  (cancelClick)="close()"
+  (closeClick)="close()"
+  [disableDummyButton]="true"
+  [noOverlay]="true"
+>
+  <div class="content">
+    <div class="header">
+      <div class="title">
+        <span *ngIf="convertToPoint">ポイント</span>
+        <span *ngIf="!convertToPoint">点群データ</span>
+      </div>
+    </div>
+    <div class="preview">
+      <table *ngIf="convertToPoint">
+        <thead>
+          <tr>
+            <th *ngFor="let pointColumnCaption of pointColumnCaptionList">
+              <span>{{ pointColumnCaption }}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of csvRows">
+            <td
+              *ngFor="
+                let pointColumnCaption of pointColumnCaptionList;
+                let i = index
+              "
+              [class.center]="pointColumnCaption === COLUMN_ELEVATION_NAME"
+            >
+              <span *ngIf="row.items">{{ row.items[i] }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <table *ngIf="!convertToPoint">
+        <thead>
+          <tr>
+            <th *ngFor="let pointColumnCaption of pointCloudColumnCaptionList">
+              <span>{{ pointColumnCaption }}</span>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of csvRows">
+            <td
+              *ngFor="
+                let pointColumnCaption of pointCloudColumnCaptionList;
+                let i = index
+              "
+              [class.center]="pointColumnCaption === COLUMN_ELEVATION_NAME"
+            >
+              <span *ngIf="row.items">{{ row.items[i] }}</span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <ntc-parts-components-basic-error-massage
+    *ngIf="errorMessage"
+    [message]="errorMessage"
+  ></ntc-parts-components-basic-error-massage>
+  <div class="app-modus-loading-icon-modal" *ngIf="isLoading">
+    <modus-spinner size="2rem"></modus-spinner>
+  </div>
+</ntc-basic-modal>

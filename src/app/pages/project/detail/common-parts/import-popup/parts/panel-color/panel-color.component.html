@@ -1,0 +1,42 @@
+<div class="screen-edit__box-color">
+  <div class="screen-edit__form__edit-color">
+    <p
+      [ngStyle]="{ backgroundColor: currentColor }"
+      class="screen-edit__form__edit-color__circle"
+      (blur)="togglePanelColor(true)"
+      (click)="togglePanelColor(true)"
+    ></p>
+    <ng-container *ngIf="openPanelColor">
+      <div class="panel-color">
+        <div class="panel-color__content">
+          <ng-container *ngIf="!isAddNew">
+            <label>色</label>
+            <div class="panel-color__content--color-default">
+              <ng-container *ngFor="let item of colorDefault">
+                <button
+                  *ngIf="item.isDefault"
+                  class="color-item"
+                  (click)="onSelectColor(item)"
+                >
+                  <span [style.backgroundColor]="item.color">
+                    <i
+                      *ngIf="item.isActive"
+                      class="modus-icons"
+                      aria-hidden="true"
+                      >check
+                    </i>
+                  </span>
+                </button>
+              </ng-container>
+            </div>
+          </ng-container>
+        </div>
+        <div class="panel-color__footer">
+          <modus-button button-style="borderless" (click)="togglePanelColor()"
+            >閉じる
+          </modus-button>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

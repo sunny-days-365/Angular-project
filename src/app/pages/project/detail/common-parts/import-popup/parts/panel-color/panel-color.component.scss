@@ -1,0 +1,141 @@
+@import './variables.scss';
+@import './mixin.scss';
+
+.screen-edit {
+  &__form {
+    padding: 10px;
+    gap: 10px;
+    display: flex;
+    flex-direction: column;
+
+    &__wrap-datetime {
+      margin-top: 21px;
+      max-height: 30px;
+    }
+
+    &__wrap-date {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      gap: 12px;
+
+      &__control {
+        width: 50%;
+        padding: 5px 0;
+      }
+    }
+
+    &__item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 10px;
+    }
+
+    &__label {
+      font-size: 0.75rem;
+      margin-bottom: 0.25rem;
+      color: $dark-gray;
+    }
+
+    &__edit-color {
+      display: flex;
+      gap: 5px;
+      &__circle {
+        position: relative;
+        width: 18px;
+        height: 18px;
+        background: $light-golden-rod-yellow;
+        border-radius: 50%;
+        margin: 0;
+      }
+      &__label {
+        color: $primary-600;
+        font-weight: 600;
+        cursor: pointer;
+      }
+
+      .panel-color {
+        background: $white;
+        border: 1px solid $light-gray;
+        position: absolute;
+        border-radius: 2px;
+        z-index: 99999;
+        top: 160px;
+        width: 250px;
+        height: 330px;
+
+        &__content {
+          padding: 12px;
+
+          &--color-default,
+          &--color-custom {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+
+            .color-item {
+              height: 2rem;
+              border-radius: 50%;
+              margin: 0;
+              padding: 0;
+              width: 2.5rem;
+              @include center;
+              border: none;
+              background: transparent;
+              cursor: pointer;
+
+              span {
+                display: block;
+                width: 1.5rem;
+                height: 1.5rem;
+                border-radius: 50%;
+
+                i {
+                  color: $white;
+                }
+              }
+
+              &__add {
+                i {
+                  color: $black !important;
+                }
+              }
+            }
+          }
+        }
+
+        &__footer {
+          padding: 12px;
+          text-align: center;
+        }
+      }
+    }
+  }
+
+  &__wrap-switch {
+    display: flex;
+    gap: 50px;
+    align-items: center;
+  }
+
+  &__icon-back {
+    cursor: pointer;
+  }
+
+  &__box-slider-opacity {
+    display: flex;
+    width: 50%;
+
+    modus-slider {
+      width: 100px;
+    }
+
+    & > span {
+      font-size: 14px;
+      padding-top: 14px;
+      display: block;
+      padding-left: 12px;
+    }
+  }
+}

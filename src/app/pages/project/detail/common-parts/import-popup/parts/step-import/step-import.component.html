@@ -1,0 +1,78 @@
+<div class="import">
+  <div class="header">ステータス</div>
+  <div class="container">
+    <div class="item_list">
+      <div
+        *ngFor="let data of getFileStack()"
+        class="item"
+        [ntcTooltip]="data.fileItem.name"
+      >
+        <div class="itemDetail">
+          <div class="name">
+            <i class="modus-icons" aria-hidden="true">file</i>
+            <span [ntcTooltip]="data.fileItem.name || ''">
+              {{ data.fileItem.name }}
+            </span>
+          </div>
+
+          <span
+            class="status"
+            *ngIf="data.fileItem.status === STATUS_UPLOAD_AWAIT"
+            ><i class="modus-icons blank" aria-hidden="true">blank</i
+            >アップロード待機中</span
+          >
+          <span
+            class="status"
+            *ngIf="data.fileItem.status === STATUS_IMPORT_AWAIT"
+            ><i class="modus-icons blank" aria-hidden="true">blank</i
+            >インポート待機中</span
+          >
+          <span
+            class="status"
+            *ngIf="data.fileItem.status === STATUS_DOWNLOAD_AWAIT"
+            ><i class="modus-icons blank" aria-hidden="true">blank</i
+            >ダウンロード待機中</span
+          >
+          <span
+            class="status"
+            *ngIf="data.fileItem.status === STATUS_DOWNLOADING"
+            ><modus-spinner color="primary" size="14px"></modus-spinner
+            >ダウンロード中</span
+          >
+          <span class="status" *ngIf="data.fileItem.status === STATUS_UPLOADING"
+            ><modus-spinner color="primary" size="14px"></modus-spinner
+            >アップロード中</span
+          >
+          <span class="status" *ngIf="data.fileItem.status === STATUS_IMPORTING"
+            ><modus-spinner color="primary" size="14px"></modus-spinner
+            >インポート中</span
+          >
+          <span
+            class="status error"
+            *ngIf="data.fileItem.status === STATUS_ERROR"
+            ><i class="modus-icons" aria-hidden="true">cancel_circle</i
+            >インポート失敗</span
+          >
+          <span
+            class="status complete"
+            *ngIf="data.fileItem.status === STATUS_DONE"
+            ><i class="modus-icons" aria-hidden="true">check_circle</i
+            >インポート完了</span
+          >
+          <span
+            class="status cancel"
+            *ngIf="data.fileItem.status === STATUS_CANCEL"
+            ><i class="modus-icons" aria-hidden="true">warning</i
+            >インポート中止</span
+          >
+
+          <span class="size">{{ data.fileItem.size | fileSize }}</span>
+        </div>
+        <div class="itemError" *ngIf="data.fileItem.errMessage">
+          <i class="modus-icons" aria-hidden="true">info_outlined</i
+          ><span>{{ data.fileItem.errMessage }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

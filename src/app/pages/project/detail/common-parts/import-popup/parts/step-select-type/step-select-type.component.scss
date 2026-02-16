@@ -1,0 +1,26 @@
+:host {
+  display: block;
+}
+
+.select-type {
+  &__container {
+    padding: 10px 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }
+}
+
+::ng-deep .ntc-radio-group__item {
+  padding: 0;
+  border: none;
+
+  .ntc-radio-group__item__label {
+    padding: 16px;
+
+    i {
+      margin-left: 4px;
+      margin-right: 4px;
+    }
+  }
+}

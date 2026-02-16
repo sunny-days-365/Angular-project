@@ -1,0 +1,10 @@
+<div class="select-type__container">
+  <form [formGroup]="form">
+    <ntc-basic-radio-group
+      formControlName="importFrom"
+      [options]="importFromOptions"
+      [vertical]="true"
+      [control]="form.controls.importFrom"
+    ></ntc-basic-radio-group>
+  </form>
+</div>
