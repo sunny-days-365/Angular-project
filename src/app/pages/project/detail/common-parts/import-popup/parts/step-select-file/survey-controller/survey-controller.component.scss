@@ -1,0 +1,41 @@
+@import './variables.scss';
+
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+ntc-parts-basic-table {
+  display: block;
+  height: 249px;
+  margin-top: 8px;
+}
+
+.choose-localize-type-modal__content__item {
+  display: flex;
+  padding: 10px 5px;
+  cursor: pointer;
+  width: 600px;
+
+  align-items: center;
+
+  &__title {
+    margin-left: 10px;
+  }
+
+  .svg-icon {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.choose-localize-type-modal__content__item.selected {
+  background-color: #0063a3;
+  color: white;
+
+  .svg-icon {
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(0deg)
+      brightness(100%) contrast(100%);
+  }
+}
