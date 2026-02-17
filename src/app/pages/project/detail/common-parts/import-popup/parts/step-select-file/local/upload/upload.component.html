@@ -1,0 +1,39 @@
+<div class="upload">
+  <div class="upload-container__zone">
+    <div id="drop-zone" class="drop-zone">
+      <div
+        class="drop-zone__label"
+        [class.drop-zone__label--drag]="hasDragOver"
+      >
+        <i class="modus-icons upload-icon" aria-hidden="true">cloud_upload</i>
+        <div class="drop-zone__label__text">
+          ここにファイルをドラッグ又は
+          <span (click)="onSelect()"> ブラウザ </span>
+          からアップロード
+        </div>
+      </div>
+    </div>
+  </div>
+  <ntc-basic-list-file
+    #listFile
+    [files]="files"
+    (remove)="onRemove($event)"
+    [fileTypeAccept]="fileAcceptExtensionList"
+    [maxHeight]="98"
+    [class.hidden]="files.length <= 0"
+  ></ntc-basic-list-file>
+
+  <div class="error-list" [class.hidden]="errorList.length <= 0">
+    <p class="error-list__item" *ngFor="let error of errorList">
+      <i aria-hidden="true" class="modus-icons">info_outlined</i>
+      {{ error }}
+    </p>
+  </div>
+
+  <div
+    class="modus-upload-modal-loading app-modus-loading-icon-modal"
+    *ngIf="loading"
+  >
+    <modus-spinner size="2rem"></modus-spinner>
+  </div>
+</div>
