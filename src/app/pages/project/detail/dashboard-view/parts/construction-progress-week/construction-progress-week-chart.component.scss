@@ -1,0 +1,14 @@
+@import './variables.scss';
+:host {
+  // display: grid;
+  // grid-template-rows: 156px;
+  // grid-template-columns: 1fr 1fr 1fr 1fr;
+  // grid-gap: 8px;
+  width: auto;
+  display: flex;
+
+  div {
+    width: calc((100% - 24px) / 4);
+    height: 211px;
+  }
+}
