@@ -1,0 +1,46 @@
+<!-- ローディング中アニメーション -->
+<ntc-parts-components-basic-loading-indicator2
+  *ngIf="isLoading"
+></ntc-parts-components-basic-loading-indicator2>
+
+<div class="card-wrapper">
+  <div class="card-wrapper__header">
+    <div class="card-wrapper__header__left">
+      <i class="modus-icons" aria-hidden="true">file_bar_graph</i>
+      <span>施工数量グラフ</span>
+    </div>
+    <div class="file-view__action">
+      <div class="file-view__view-mode">
+        <span class="relative" [ngClass]="{ active: isCurrentSelected }">
+          <modus-tooltip text="日々" position="bottom">
+            <modus-button
+              button-style="borderless"
+              color="secondary"
+              icon-only="bar_graph"
+              (click)="graphSwitching(true)"
+            >
+            </modus-button>
+          </modus-tooltip>
+        </span>
+        <span
+          class="relative"
+          (click)="graphSwitching(false)"
+          [ngClass]="{ active: !isCurrentSelected }"
+        >
+          <modus-tooltip text="累積" position="bottom">
+            <modus-button
+              button-style="borderless"
+              color="secondary"
+              icon-only="signal"
+              (click)="graphSwitching(false)"
+            >
+            </modus-button>
+          </modus-tooltip>
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="card-wrapper__container">
+    <canvas #progressChart id="ConstructionProgress">{{ chart }} </canvas>
+  </div>
+</div>

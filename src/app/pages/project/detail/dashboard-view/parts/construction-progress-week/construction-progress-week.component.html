@@ -1,0 +1,21 @@
+<div
+  class="dashboard-grid__cards__item"
+  *ngFor="let item of constructionWeekData"
+>
+  <ntc-construction-week-card
+    [title]="item.title"
+    [icons]="item.icons"
+    [dateRange]="item.dateRange"
+    [dailyConstructionTotalTitle]="item.dailyConstructionTotalTitle"
+    [actualAverageValueUpToToday]="item.actualAverageValueUpToToday"
+    [cutTotalTitle]="item.cutTotalTitle"
+    [fillTotalTitle]="item.fillTotalTitle"
+    [cutTotalRemainingTitle]="item.cutTotalRemainingTitle"
+    [fillTotalRemainingTitle]="item.fillTotalRemainingTitle"
+    [cutVolume]="item.cutVolume"
+    [fillVolume]="item.fillVolume"
+    [cutFillVolume]="item.cutFillVolume"
+    [dailyVolume]="item.dailyVolume"
+    [actualAverageVolume]="item.actualAverageVolume"
+  ></ntc-construction-week-card>
+</div>
