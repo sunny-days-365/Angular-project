@@ -1,0 +1,225 @@
+<div class="dashboard-grid">
+  <div class="dashboard-grid__alert">
+    <ntc-parts-components-basic-error-alert
+      class="alert-style"
+      [errors$]="errors$"
+      (dismissClick)="errorClose($event)"
+      [width]="widthSidebarExpanded"
+    ></ntc-parts-components-basic-error-alert>
+  </div>
+
+  <div class="header">
+    <div class="left">
+      <i slot="menu-icon" class="modus-icons" aria-hidden="true">dashboard</i>
+      <span>進捗確認</span>
+    </div>
+    <div class="right">
+      <div class="constructionProgress">
+        <ng-template
+          *ngIf="
+            lastConstructionProgress;
+            then showLastConstructionProgress;
+            else emptyLastConstructionProgress
+          "
+        >
+        </ng-template>
+        <ng-template #showLastConstructionProgress>
+          <span class="title">更新日時：</span
+          ><span class="date">{{
+            lastConstructionProgress?.dateTime | date: 'yyyy/MM/dd HH:mm'
+          }}</span>
+        </ng-template>
+        <ng-template #emptyLastConstructionProgress>
+          <span class="title">更新日時：</span
+          ><span class="date">----/--/-- 00:00</span>
+        </ng-template>
+      </div>
+
+      <div class="form">
+        <div class="loading-wrapper" *ngIf="checkLocks">
+          <modus-spinner size="0.5rem"></modus-spinner>
+        </div>
+        <form [formGroup]="form">
+          <ntc-basic-select
+            #selectActivityComponent
+            formControlName="selectActivity"
+            [options]="optionsActivity ?? []"
+            [placeHolder]="selectActivityPlaceHolder"
+            [modusComponentsStyle]="true"
+            [disabled]="
+              !projectAccessControlService.isConstructionHistoryReportAvailable() ||
+              checkLocks
+            "
+            [noBorder]="true"
+            [maxHeight]="360"
+            [maxWidth]="400"
+            [ellipsis]="true"
+            [tooltipOffset]="15"
+          ></ntc-basic-select>
+        </form>
+      </div>
+      <ng-template
+        *ngIf="currentActivity; then showActivityTerm; else emptyActivityTerm"
+      >
+      </ng-template>
+      <ng-template #showActivityTerm>
+        <div class="term">
+          <span class="title">開始日</span
+          ><span class="date">{{ currentActivity?.startTime | date }}</span>
+          <span class="title">終了日</span
+          ><span class="date">{{ currentActivity?.endTime | date }}</span>
+        </div>
+      </ng-template>
+      <ng-template #emptyActivityTerm>
+        <div class="term">
+          <span class="title">開始日</span><span class="date">----/--/--</span>
+          <span class="title">終了日</span><span class="date">----/--/--</span>
+        </div>
+      </ng-template>
+      <div class="command">
+        <modus-tooltip text="施工履歴データ取得" position="bottom">
+          <modus-button
+            button-style="borderless"
+            color="secondary"
+            icon-only="sync"
+            (click)="openConstructionHistoryModal()"
+            [disabled]="
+              !projectAccessControlService.isConstructionHistoryAvailable()
+            "
+          >
+          </modus-button>
+        </modus-tooltip>
+        <modus-tooltip text="進捗確認設定登録" position="bottom">
+          <modus-button
+            button-style="borderless"
+            color="secondary"
+            icon-only="settings"
+            (click)="openActivitySetting()"
+            [disabled]="
+              !projectAccessControlService.isConstructionHistoryReportAvailable()
+            "
+          >
+          </modus-button>
+        </modus-tooltip>
+        <modus-tooltip text="進捗確認設定追加" position="bottom">
+          <modus-button
+            color="primary"
+            (click)="openRegistActivitySettingModal()"
+            [disabled]="
+              !projectAccessControlService.isConstructionHistoryReportAvailable()
+            "
+          >
+            <div class="buttonInner">
+              <i class="modus-icons" aria-hidden="true">add</i>
+              <span>追加</span>
+            </div>
+          </modus-button>
+        </modus-tooltip>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <ng-container [ngSwitch]="true">
+      <ng-container *ngSwitchCase="contentType === CALCULATION_IN_PROGRESS">
+        <div class="emptyContent">
+          <i class="modus-icons" aria-hidden="true">warning</i>
+          <div class="message">
+            <h3>施工履歴再計算中です。</h3>
+            <span>しばらく待ってから再度読み込みなおしてください。</span>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="contentType === EMPTY_ACTIVITY">
+        <div class="emptyContent">
+          <i class="modus-icons" aria-hidden="true">warning</i>
+          <div class="message">
+            <h3>進捗確認設定が未登録です。</h3>
+            <span
+              >施工進捗情報を確認するには進捗確認設定を追加してください。</span
+            >
+            <span
+              *ngIf="
+                projectAccessControlService.isConstructionHistoryReportAvailable()
+              "
+              class="link"
+              [class.disabled]="
+                !projectAccessControlService.isConstructionHistoryReportAvailable()
+              "
+              (click)="openRegistActivitySettingModal()"
+              >（＋進捗確認設定を追加）</span
+            >
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="contentType === ERROR">
+        <div class="emptyContent">
+          <i class="modus-icons" aria-hidden="true">alert</i>
+          <div class="message">
+            <h3>エラーが発生しました。</h3>
+            <span>XXXXXXXXXXXXXXXXXXXXXXXXXXXXしてください</span>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngSwitchCase="contentType === NOT_LOADED"></ng-container>
+    </ng-container>
+
+    <div
+      class="mainContent"
+      [class.opacityZero]="
+        contentType === NOT_LOADED ||
+        contentType === CALCULATION_IN_PROGRESS ||
+        contentType === EMPTY_ACTIVITY ||
+        contentType === ERROR
+      "
+    >
+      <ntc-project-project-dashboard-view-construction-progress-week-chart-component
+        class="dashboard-grid__cards"
+      ></ntc-project-project-dashboard-view-construction-progress-week-chart-component>
+
+      <div class="dashboard-grid__content">
+        <div class="dashboard-grid__content__item d-flex d-flex-column flex-1">
+          <modus-card
+            show-card-border="true"
+            show-shadow-on-hover="true"
+            width="100%"
+            height="100%"
+            style="flex: 1"
+          >
+            <ntc-project-project-dashboard-view-project-progress-progress-chart></ntc-project-project-dashboard-view-project-progress-progress-chart>
+          </modus-card>
+
+          <modus-card
+            show-card-border="true"
+            show-shadow-on-hover="true"
+            width="100%"
+            height="100%"
+          >
+            <ntc-project-project-dashboard-view-project-progress-construction-progress></ntc-project-project-dashboard-view-project-progress-construction-progress>
+          </modus-card>
+        </div>
+        <div class="dashboard-grid__content__item">
+          <modus-card
+            show-card-border="true"
+            show-shadow-on-hover="true"
+            width="100%"
+            height="100%"
+          >
+            <ntc-project-project-dashboard-view-project-progress-heat-map></ntc-project-project-dashboard-view-project-progress-heat-map>
+          </modus-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ntc-toolbars-3d-construction-history-confirmation-modal
+  #constructionHistoryModal
+></ntc-toolbars-3d-construction-history-confirmation-modal>
+
+<ntc-parts-components-basic-loading-indicator2
+  *ngIf="isActivityLoading"
+  [backGroundDark]="true"
+  [text]="activityLoadingText"
+  class="activityLoadingIndicator"
+></ntc-parts-components-basic-loading-indicator2>

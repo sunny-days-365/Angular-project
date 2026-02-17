@@ -1,0 +1,83 @@
+@import './variables.scss';
+
+.todo-table {
+  font-size: 12px;
+  width: 100%;
+  border-collapse: collapse;
+}
+.table {
+  height: calc(65vh - 122px);
+  overflow: auto;
+}
+
+.todo-table th,
+td {
+  border-width: 1px 1px; /* 上下 左右 */
+  border-color: $neutral-200; /* 線色：緑 */
+  border-style: solid; /* 線種：実線 */
+  border-left: 0;
+  border-right: 0;
+  padding: 12px 24px;
+  color: $neutral-700;
+  font-weight: 500;
+  line-height: 24px;
+  font-size: 14px;
+  font-family: $fontFamily !important;
+}
+
+.todo-table {
+  border: 1px solid $neutral-200;
+  border-radius: 4px;
+}
+
+.todo-table td {
+  padding: 16px 24px;
+}
+
+.indicator {
+  border-radius: 100%;
+  display: inline-block;
+  height: 0.75rem;
+  vertical-align: middle;
+  width: 0.75rem;
+}
+.low {
+  background-color: $moss-green !important;
+}
+.normal {
+  background-color: $ocean-blue !important;
+}
+.high {
+  background-color: $goldenrod-yellow !important;
+}
+.critical {
+  background-color: $fire-engine-red !important;
+}
+
+.card-wrapper {
+  font-family: $fontFamily !important;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid $neutral-200;
+
+    &__left {
+      font-weight: 600;
+      font-size: $text-lg;
+      line-height: 32px;
+      color: $neutral-900;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+  }
+
+  &__container {
+    padding: 16px;
+    height: calc(100% - 100px);
+  }
+}
