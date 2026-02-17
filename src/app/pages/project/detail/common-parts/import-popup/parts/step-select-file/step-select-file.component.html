@@ -1,0 +1,81 @@
+<div></div>
+
+<div class="tabs">
+  <div class="tabs__header">
+    <div
+      (click)="onChangeTabs(ImportFromEnum.Local)"
+      class="tabs__header__btn"
+      [class.tabs__header__btn--active]="importFrom === ImportFromEnum.Local"
+      *ngIf="importFrom === ImportFromEnum.Local || showTab"
+    >
+      <i class="modus-icons" aria-hidden="true">master_data</i>
+      ローカル
+    </div>
+
+    <div
+      (click)="onChangeTabs(ImportFromEnum.FileManage)"
+      class="tabs__header__btn"
+      [class.tabs__header__btn--active]="
+        importFrom === ImportFromEnum.FileManage
+      "
+      *ngIf="importFrom === ImportFromEnum.FileManage || showTab"
+    >
+      <i class="modus-icons" aria-hidden="true">folder_closed</i>
+      ファイル管理
+    </div>
+
+    <div
+      (click)="onChangeTabs(ImportFromEnum.SurveyControl)"
+      class="tabs__header__btn"
+      [class.tabs__header__btn--active]="
+        importFrom === ImportFromEnum.SurveyControl
+      "
+      *ngIf="importFrom === ImportFromEnum.SurveyControl || showTab"
+    >
+      <img [src]="surveyControllerImgSrc" />
+      測量用デバイス
+    </div>
+
+    <div class="tabs__header__blank"></div>
+  </div>
+
+  <div class="tabs__container">
+    <!-- Local -->
+    <div class="none" [class.show]="importFrom === ImportFromEnum.Local">
+      <ntc-import-popup-step-select-file-local
+        #local
+        [fileAcceptExtensionList]="fileAcceptExtensionList"
+      />
+    </div>
+
+    <!-- FileManage -->
+    <div
+      class="none"
+      [class.show]="
+        importFrom === ImportFromEnum.FileManage ||
+        (currentStep === ImportStepEnum.File &&
+          importFrom === ImportFromEnum.SurveyControl)
+      "
+    >
+      <ntc-import-popup-step-select-file-file-management
+        #fileManage
+        [fileAcceptExtensionList]="fileAcceptExtensionList"
+        [selectedSurveyControllerData]="selectedSurveyControllerData"
+      ></ntc-import-popup-step-select-file-file-management>
+    </div>
+
+    <!-- SurveyControl -->
+    <div
+      class="none"
+      [class.show]="
+        currentStep === ImportStepEnum.SelectSurveyController &&
+        importFrom === ImportFromEnum.SurveyControl
+      "
+    >
+      <ntc-import-popup-step-select-file-survey-controller
+        (dataToParent)="handleSurveyControlDataFromChild($event)"
+        #surveyControl
+      />
+    </div>
+  </div>
+</div>

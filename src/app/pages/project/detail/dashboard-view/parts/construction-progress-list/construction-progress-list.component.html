@@ -1,0 +1,41 @@
+<ntc-parts-components-basic-loading-indicator
+  [isLoading$]="isLoading$"
+></ntc-parts-components-basic-loading-indicator>
+
+<div class="card-wrapper">
+  <div class="card-wrapper__header">
+    <div class="card-wrapper__header__left">
+      <i class="modus-icons" aria-hidden="true">history</i>
+      <span>施工履歴</span>
+    </div>
+  </div>
+  <div class="card-wrapper__container">
+    <div class="table">
+      <table class="todo-table" [cellPadding]="8">
+        <tr style="background-color: #f9fafb">
+          <th align="left">日付</th>
+          <th align="left">切土</th>
+          <th align="left">盛土</th>
+          <th align="left">合計</th>
+        </tr>
+        <ng-container *ngFor="let cp of rawDataArray">
+          <tr>
+            <td>{{ cp.dateTime | date: 'yyyy/MM/dd' }}</td>
+            <td>
+              {{ cp.difference?.cutVolume | number: '.1-2' }}m<sup>3</sup>
+            </td>
+            <td>
+              {{ cp.difference?.fillVolume | number: '.1-2' }}m<sup>3</sup>
+            </td>
+            <td>
+              {{
+                (cp.difference?.cutVolume ?? 0) +
+                  (cp.difference?.fillVolume ?? 0) | number: '.1-2'
+              }}m<sup>3</sup>
+            </td>
+          </tr>
+        </ng-container>
+      </table>
+    </div>
+  </div>
+</div>
