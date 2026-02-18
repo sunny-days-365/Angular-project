@@ -1,0 +1,55 @@
+.box {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  font-family: 'Noto Sans JP', sans-serif !important;
+
+  .header {
+    //width: calc(100% - 16px);
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+
+    padding: 8px;
+
+    border-bottom: 1px solid #eaecf0;
+
+    span {
+      font-size: 14px;
+      line-height: 24px;
+      font-weight: 600;
+      color: #101828;
+    }
+
+    .title {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .dateRange {
+      span {
+        color: #667085;
+      }
+
+      .dateDivider {
+        padding: 4px;
+      }
+    }
+  }
+
+  .content {
+    //width: calc(100% - 16px);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+  }
+}

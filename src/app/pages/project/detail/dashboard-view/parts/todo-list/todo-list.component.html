@@ -1,0 +1,50 @@
+<ntc-parts-components-basic-loading-indicator
+  [isLoading$]="isLoading$"
+></ntc-parts-components-basic-loading-indicator>
+
+<div class="card-wrapper">
+  <div class="card-wrapper__header">
+    <div class="card-wrapper__header__left">
+      <i class="modus-icons" aria-hidden="true">clipboard_planning</i>
+      <span>ToDoリスト</span>
+    </div>
+  </div>
+  <div class="card-wrapper__container">
+    <div class="table">
+      <table class="todo-table" [cellPadding]="8">
+        <tr style="background-color: #f9fafb">
+          <th align="left">タイトル</th>
+          <th align="left">種別</th>
+          <th align="left">更新日時</th>
+        </tr>
+        <ng-container *ngrxLet="todoList$ as data">
+          <ng-container *ngFor="let todo of data?.rawData">
+            <tr>
+              <td>
+                <span
+                  *ngIf="todo.priority === 'LOW'"
+                  class="indicator low"
+                ></span>
+                <span
+                  *ngIf="todo.priority === 'NORMAL'"
+                  class="indicator normal"
+                ></span>
+                <span
+                  *ngIf="todo.priority === 'HIGH'"
+                  class="indicator high"
+                ></span>
+                <span
+                  *ngIf="todo.priority === 'CRITICAL'"
+                  class="indicator critical"
+                ></span>
+                {{ todo.title }}
+              </td>
+              <td>{{ todo.type }}</td>
+              <td>{{ todo.modifiedOn | date: 'yyyy/MM/dd HH:mm' }}</td>
+            </tr>
+          </ng-container>
+        </ng-container>
+      </table>
+    </div>
+  </div>
+</div>
