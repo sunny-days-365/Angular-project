@@ -1,0 +1,180 @@
+<!-- ローディング中アニメーション -->
+<ntc-parts-components-basic-loading-indicator2
+  *ngIf="isLoading"
+></ntc-parts-components-basic-loading-indicator2>
+
+<ng-container>
+  <div class="card-wrapper">
+    <div class="card-wrapper__header">
+      <div class="card-wrapper__header__left">
+        <i class="modus-icons" aria-hidden="true">calendar_reserve</i>
+        <span>進捗率</span>
+      </div>
+    </div>
+    <div class="card-wrapper__container">
+      <!-- 円グラフ -->
+      <div
+        class="card-wrapper__container__item"
+        [class.space-even]="showFillChart && showCutChart"
+      >
+        <div
+          class="card-wrapper__container__item__graph__left"
+          [class.hidden]="!showFillChart"
+          [class.expand]="showFillChart && !showCutChart"
+        >
+          <canvas id="fillChart"></canvas>
+        </div>
+        <div
+          class="card-wrapper__container__item__graph__right"
+          [class.hidden]="!showCutChart"
+          [class.expand]="!showFillChart && showCutChart"
+        >
+          <canvas id="cutChart"></canvas>
+        </div>
+      </div>
+      <!-- 切土/盛土 -->
+      <div
+        class="content"
+        [class.space-half]="
+          (showFillChart && !showCutChart) || (!showFillChart && showCutChart)
+        "
+        [class.space-calc3]="showFillChart && showCutChart"
+      >
+        <div [ngSwitch]="chartViewData?.activitySubType">
+          <div
+            *ngSwitchCase="ConstructionActivitySubType.cutfill"
+            class="space-80-percent"
+          >
+            <div class="item">
+              <span class="bold-text"></span>
+            </div>
+            <div class="item">
+              <div class="item__text">
+                <span>切土量:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.designCutVolume) }}
+                </span>
+              </div>
+            </div>
+            <div class="item">
+              <span class="square square--cut"></span>
+              <div class="item__text">
+                <span>完了:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.doneSumCutVolume) }}
+                </span>
+              </div>
+            </div>
+            <div class="item">
+              <span class="square square--light-gray"></span>
+              <div class="item__text">
+                <span>残り:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.remainedCutVolume) }}
+                </span>
+              </div>
+            </div>
+
+            <div class="item">
+              <span class="bold-text">&nbsp;</span>
+            </div>
+            <div class="item">
+              <div class="item__text">
+                <span>盛土量:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.designFillVolume) }}
+                </span>
+              </div>
+            </div>
+            <div class="item">
+              <span class="square square--fill"></span>
+              <div class="item__text">
+                <span>完了:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.doneSumFillVolume) }}
+                </span>
+              </div>
+            </div>
+            <div class="item">
+              <span class="square square--light-gray"></span>
+              <div class="item__text">
+                <span>残り:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.remainedFillVolume) }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngSwitchCase="ConstructionActivitySubType.cut"
+            class="space-55-percent"
+          >
+            <div class="item">
+              <span class="bold-text"></span>
+            </div>
+            <div class="item">
+              <div class="item__text">
+                <span>切土量:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.designCutVolume) }}
+                </span>
+              </div>
+            </div>
+            <div class="item">
+              <span class="square square--blue"></span>
+              <div class="item__text">
+                <span>完了:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.doneSumCutVolume) }}
+                </span>
+              </div>
+            </div>
+            <div class="item">
+              <span class="square square--light-gray"></span>
+              <div class="item__text">
+                <span>残り:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.remainedCutVolume) }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div
+            *ngSwitchCase="ConstructionActivitySubType.fill"
+            class="space-55-percent"
+          >
+            <div class="item">
+              <span class="bold-text"></span>
+            </div>
+            <div class="item">
+              <div class="item__text">
+                <span>盛土量:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.designFillVolume) }}
+                </span>
+              </div>
+            </div>
+            <div class="item">
+              <span class="square square--fire-engine-red"></span>
+              <div class="item__text">
+                <span>完了:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.doneSumFillVolume) }}
+                </span>
+              </div>
+            </div>
+            <div class="item">
+              <span class="square square--light-gray"></span>
+              <div class="item__text">
+                <span>残り:</span>
+                <span>
+                  {{ fixedCutFillVolume(chartViewData?.remainedFillVolume) }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
