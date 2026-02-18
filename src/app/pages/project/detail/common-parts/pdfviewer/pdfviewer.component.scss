@@ -1,0 +1,145 @@
+// ntc-pdf-modal のスタイルを組み込み
+.ntc-pdf-modal {
+  --ntc-modal-divider-color: #e0e1e9;
+  --ntc-modal-border-color: rgba(0, 0, 0, 0.2);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &.none {
+    display: none;
+  }
+
+  &.fullscreen {
+    .ntc-pdf-modal__content {
+      width: 100vw !important;
+      height: 100vh !important;
+      max-width: 100vw;
+      max-height: 100vh;
+      border-radius: 0;
+      border: none;
+
+      &__body {
+        height: calc(100vh - 64px) !important;
+      }
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(37, 42, 46, 0.75);
+    z-index: 1;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+
+    background-color: #fff;
+    min-width: 400px;
+    border-radius: 2px;
+    z-index: 4002;
+    border: 1px solid var(--ntc-modal-border-color);
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+      padding: 0 1rem;
+      font-weight: 600;
+      height: 64px;
+      border-bottom: 1px solid var(--ntc-modal-divider-color);
+
+      .header-left {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: left;
+
+        .header-return {
+          padding-right: 30px;
+          cursor: pointer;
+        }
+        .header-title {
+          padding-bottom: 5px;
+        }
+      }
+
+      .header-actions__center {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+    }
+
+    &__body {
+      position: relative;
+      flex-grow: 1;
+      height: 100%;
+      padding: 1rem;
+      overflow: hidden;
+
+      &.no-padding {
+        padding: 0;
+      }
+    }
+  }
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: grab;
+  user-select: none;
+  // タッチデバイスでのデフォルトパン/ズームを無効化（カスタムパン操作を優先）
+  touch-action: none;
+
+  &.panning {
+    cursor: grabbing;
+  }
+
+  // pdf-viewer内のスタイル調整
+  ::ng-deep {
+    // テキストレイヤー等のポインターイベントを無効化してパン操作を可能にする
+    .textLayer,
+    .annotationLayer {
+      pointer-events: none !important;
+      user-select: none !important;
+    }
+
+    // スクロールコンテナのスクロールバーを非表示 & ハードウェアアクセラレーション有効化
+    .ng2-pdf-viewer-container {
+      scrollbar-width: none; // Firefox
+      -ms-overflow-style: none; // IE/Edge
+      // ハードウェアアクセラレーション（スムーズなスクロール用）
+      will-change: scroll-position;
+      transform: translateZ(0);
+      -webkit-overflow-scrolling: touch;
+
+      &::-webkit-scrollbar {
+        display: none; // WebKit (Chrome, Safari)
+      }
+    }
+  }
+}

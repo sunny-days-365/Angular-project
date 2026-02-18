@@ -1,0 +1,84 @@
+<div
+  [class]="['ntc-pdf-modal', openClass, fullscreen ? 'fullscreen' : '']"
+  [style.z-index]="zIndex || viewConstant.ModalZindex"
+>
+  <div *ngIf="!noOverlay" class="ntc-pdf-modal__overlay"></div>
+  <div
+    class="ntc-pdf-modal__content"
+    [style.width]="fullscreen ? '100vw' : width"
+    [style.height]="fullscreen ? '100vh' : height"
+  >
+    <header class="ntc-pdf-modal__content__header">
+      <div class="header-left">
+        <div class="header-return">
+          <i class="modus-icons" aria-hidden="true" (click)="onClose()"
+            >arrow_back</i
+          >
+        </div>
+        <div class="header-title">{{ title ?? '' }}</div>
+      </div>
+      <div class="header-actions__center">
+        <modus-button
+          class="zoom-button__minus"
+          button-style="borderless"
+          color="tertiary"
+          icon-only="zoom_out"
+          (buttonClick)="onZoomMinus()"
+          [ntcTooltip]="'縮小'"
+          [alwaysShowTooltip]="true"
+        ></modus-button>
+        <modus-button
+          class="zoom-button__plus"
+          button-style="borderless"
+          color="tertiary"
+          icon-only="zoom_in"
+          (buttonClick)="onZoomPlus()"
+          [ntcTooltip]="'拡大'"
+          [alwaysShowTooltip]="true"
+        ></modus-button>
+        <modus-button
+          class="zoom-button__reset"
+          button-style="borderless"
+          color="tertiary"
+          icon-only="expand"
+          (buttonClick)="onZoomReset()"
+          [ntcTooltip]="'全体表示'"
+          [alwaysShowTooltip]="true"
+        ></modus-button>
+      </div>
+      <div class="header-actions">
+        <modus-button
+          color="secondary"
+          (click)="onClose()"
+          [alwaysShowTooltip]="true"
+          >閉じる
+        </modus-button>
+      </div>
+    </header>
+    <div class="ntc-pdf-modal__content__body no-padding">
+      <div
+        class="content"
+        [class.panning]="isPanning"
+        (pointerdown)="onPanStart($event)"
+        (pointermove)="onPanMove($event)"
+        (pointerup)="onPanEnd()"
+        (pointerleave)="onPanEnd()"
+      >
+        <pdf-viewer
+          #pdfViewerElement
+          [src]="src"
+          [show-all]="showAll"
+          [page]="page"
+          [autoresize]="autoresize"
+          [original-size]="originalSize"
+          [fit-to-page]="fitToPage"
+          [show-borders]="showBorders"
+          [zoom]="zoom"
+          [render-text]="renderText"
+          [style.width]="pdfWidth"
+          [style.height]="pdfHeight"
+        ></pdf-viewer>
+      </div>
+    </div>
+  </div>
+</div>

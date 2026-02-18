@@ -1,0 +1,130 @@
+<modus-card
+  show-card-border="true"
+  show-shadow-on-hover="true"
+  width="100%"
+  height="100%"
+>
+  <ng-container *ngrxLet="progressChart$ as data">
+    <div class="construction-week">
+      <div>
+        <div class="construction-week__header">
+          <div class="construction-week__header__title">
+            <i class="modus-icons" aria-hidden="true">{{ icons }}</i>
+            <span>{{ title }}</span>
+          </div>
+          <div class="construction-week__container--title">{{ dateRange }}</div>
+        </div>
+      </div>
+      <div
+        class="construction-week__container"
+        [ngClass]="{
+          'construction-week__container--rate': title === '日当たり施工数量'
+        }"
+      >
+        <div
+          *ngIf="title !== '日当たり施工数量'"
+          [ngSwitch]="data?.viewData?.activitySubType"
+        >
+          <div *ngSwitchCase="constructionActivitySubType.cutfill">
+            <div class="parameter">
+              <div *ngIf="!remainingAmount">
+                <div class="construction-week__container--title">
+                  {{ cutTotalTitle }}
+                </div>
+              </div>
+              <div *ngIf="remainingAmount">
+                <div class="construction-week__container--title">
+                  {{ cutTotalRemainingTitle }}
+                </div>
+              </div>
+              <div class="margin-left">
+                <div class="parameter__box-inner">
+                  <h5>{{ cutVolume }}</h5>
+                  <span>m<sup>3</sup></span>
+                </div>
+              </div>
+            </div>
+            <div class="parameter">
+              <div *ngIf="!remainingAmount">
+                <div class="construction-week__container--title">
+                  {{ fillTotalTitle }}
+                </div>
+              </div>
+              <div *ngIf="remainingAmount">
+                <div class="construction-week__container--title">
+                  {{ fillTotalRemainingTitle }}
+                </div>
+              </div>
+              <div class="margin-left">
+                <div class="parameter__box-inner">
+                  <h5>{{ fillVolume }}</h5>
+                  <span>m<sup>3</sup></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchCase="constructionActivitySubType.cut">
+            <div class="parameter">
+              <div *ngIf="!remainingAmount">
+                <div class="construction-week__container--title">
+                  {{ cutTotalTitle }}
+                </div>
+              </div>
+              <div *ngIf="remainingAmount">
+                <div class="construction-week__container--title">
+                  {{ cutTotalRemainingTitle }}
+                </div>
+              </div>
+              <div class="margin-left">
+                <div class="parameter__box-inner">
+                  <h5>{{ cutVolume }}</h5>
+                  <span>m<sup>3</sup></span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngSwitchCase="constructionActivitySubType.fill">
+            <div class="parameter">
+              <div *ngIf="!remainingAmount">
+                <div class="construction-week__container--title">
+                  {{ fillTotalTitle }}
+                </div>
+              </div>
+              <div *ngIf="remainingAmount">
+                <div class="construction-week__container--title">
+                  {{ fillTotalRemainingTitle }}
+                </div>
+              </div>
+              <div class="margin-left">
+                <div class="parameter__box-inner">
+                  <h5>{{ fillVolume }}</h5>
+                  <span>m<sup>3</sup></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="title === '日当たり施工数量'">
+          <div class="parameter__rate">
+            <div class="construction-week__container--title">
+              {{ dailyConstructionTotalTitle }}
+            </div>
+            <div class="parameter__box-inner center">
+              <h5>{{ dailyVolume }}</h5>
+              <span>m<sup>3</sup></span>
+            </div>
+          </div>
+          <div class="parameter__rate">
+            <div class="construction-week__container--title">
+              {{ actualAverageValueUpToToday }}
+            </div>
+            <div class="parameter__box-inner center">
+              <h5>{{ actualAverageVolume }}</h5>
+              <span>m<sup>3</sup></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</modus-card>
