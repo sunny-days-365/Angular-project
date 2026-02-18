@@ -1,0 +1,37 @@
+// メッセージアラート
+.viewer-3d {
+  display: flex;
+  position: relative;
+  &__panel {
+    width: 300px;
+  }
+  &__open-panel-btn {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    top: 53px;
+    user-select: none;
+    cursor: pointer;
+    &:hover {
+      background: #fff;
+    }
+  }
+  &__content {
+    flex: 1;
+  }
+}
+
+.alert-style {
+  position: absolute;
+  z-index: 11;
+  padding: 2px;
+  top: 0;
+}
+
+.model-viewer {
+  height: 100%;
+  width: 100%;
+}
