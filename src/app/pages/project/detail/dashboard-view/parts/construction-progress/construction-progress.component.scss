@@ -1,0 +1,90 @@
+@import './variables.scss';
+@import './modus-styles.scss';
+
+.card-wrapper {
+  display: flex;
+  flex-direction: column;
+  font-family: $fontFamily !important;
+  justify-content: space-between;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid $neutral-200;
+
+    &__left {
+      font-weight: 600;
+      font-size: $text-lg;
+      line-height: 32px;
+      color: $neutral-900;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      span {
+        font-size: $text-sm;
+      }
+    }
+  }
+
+  &__container {
+    // 31vh is height pie chart minus 75px inner box chart
+    height: calc(31vh - 75px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 24px;
+    padding-bottom: 8px;
+  }
+
+  .file-view {
+    &__action {
+      display: flex;
+      gap: 10px;
+
+      i {
+        cursor: pointer;
+      }
+
+      .add-new {
+        &__btn {
+          display: flex;
+          align-items: center;
+        }
+
+        &__icon {
+          margin-right: 4px;
+        }
+      }
+    }
+
+    &__view-mode {
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      background-color: #eaecf0;
+      padding: 1px;
+
+      span {
+        border-radius: 4px;
+
+        &.active {
+          background-color: #c0c0c0;
+        }
+
+        &:hover {
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+}
+
+.relative {
+  position: relative;
+}

@@ -1,0 +1,17 @@
+<ntc-basic-modal
+  #modal
+  ntcModal
+  [headerText]="title"
+  cancelButtonText="キャンセル"
+  nextButtonText="OK"
+  (nextClick)="onOK()"
+  (cancelClick)="onClose()"
+  [nextButtonDisabled]="
+    !projectAccessControlService.isConstructionHistoryReportAvailable()
+  "
+  width="450px"
+>
+  <div class="content">
+    <div class="message">{{ message }}</div>
+  </div>
+</ntc-basic-modal>

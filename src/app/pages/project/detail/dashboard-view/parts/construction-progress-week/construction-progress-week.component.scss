@@ -1,0 +1,183 @@
+@import './variables.scss';
+
+.card-container {
+  width: calc(20vw + 62px);
+  height: 21vh;
+}
+
+.card-container-expanded {
+  width: 25%;
+}
+
+.construction-week {
+  display: flex;
+  flex-direction: column;
+  font-family: $fontFamily !important;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    border-bottom: 1px solid $border-table;
+    padding: 8px;
+
+    span {
+      font-size: $text-sm;
+      line-height: 24px;
+      font-weight: 600;
+      color: $neutral-900;
+
+      @media only screen and (max-width: 1280px) {
+        font-size: 10px;
+        line-height: 18px;
+      }
+    }
+
+    span + span {
+      font-size: $text-sm;
+      line-height: 24px;
+      font-weight: 500;
+      color: $state-gray;
+
+      @media only screen and (max-width: 1280px) {
+        font-size: 10px;
+      }
+    }
+    &__title {
+      display: flex;
+      gap: 8px;
+    }
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    height: 100%;
+    justify-content: center;
+
+    @media only screen and (max-width: 1366px) {
+      gap: 0;
+    }
+
+    &--rate {
+      justify-content: flex-start;
+    }
+
+    &--title {
+      font-size: $text-sm;
+      line-height: 24px;
+      font-weight: 500;
+      color: $neutral-500;
+
+      @media only screen and (max-width: 1280px) {
+        font-size: $text-xs;
+        line-height: 18px;
+      }
+    }
+
+    .parameter {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: row;
+      gap: 24px;
+
+      &__one {
+        padding: 8px 0;
+      }
+      &__two {
+        padding-bottom: 16px;
+      }
+      &__rate {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      &__rate-bottom {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 16px;
+      }
+
+      &__box-inner {
+        h5 {
+          font-size: $text-3xl;
+          font-weight: 700;
+          line-height: 40px;
+          color: $deep-cerulean;
+          margin: 0;
+          display: inline;
+
+          @media only screen and (max-width: 1280px) {
+            font-size: $text-sm;
+          }
+        }
+
+        span {
+          font-size: $text-sm;
+          font-weight: 600;
+          line-height: 24px;
+          color: $neutral-500;
+
+          @media only screen and (max-width: 1280px) {
+            font-size: $text-xs;
+          }
+        }
+      }
+    }
+  }
+}
+.date-time {
+  margin-left: 8px;
+}
+
+.margin-left {
+  margin-left: auto;
+  display: flex;
+}
+
+.center {
+  text-align: center;
+}
+
+.rate {
+  font-weight: 600;
+  font-size: $text-sm;
+  line-height: 24px;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  align-items: flex-end;
+
+  &--increase {
+    color: $forest-green;
+  }
+
+  &--nodata {
+    color: $state-gray;
+  }
+
+  &--decrease {
+    color: $error;
+  }
+
+  @media only screen and (max-width: 1280px) {
+    font-size: $text-xs;
+    i {
+      font-size: $text-lg;
+      line-height: unset;
+    }
+  }
+}
+
+.flex-end {
+  justify-content: flex-end;
+}
+
+.content-end {
+  display: flex;
+  justify-content: end;
+}
