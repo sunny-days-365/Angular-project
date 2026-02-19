@@ -1,0 +1,39 @@
+<div>
+  <ntc-construction-week-card-range-chart
+    #past7DaysChart
+    [id]="'past7DaysChart_id'"
+    [icons]="'calendar_event'"
+    [title]="'日'"
+    [data]="past7DaysData"
+    [legendFontSize]="12"
+  ></ntc-construction-week-card-range-chart>
+</div>
+<div>
+  <ntc-construction-week-card-range-chart
+    #past5WeekChart
+    [id]="'past5WeekChart_id'"
+    [icons]="'calendar_week'"
+    [title]="'週'"
+    [data]="past5WeekData"
+    [legendFontSize]="12"
+  ></ntc-construction-week-card-range-chart>
+</div>
+<div>
+  <ntc-construction-week-card-range-chart
+    #past5MonthChart
+    [id]="'past5MonthChart_id'"
+    [icons]="'calendar'"
+    [title]="'月'"
+    [data]="past5MonthData"
+    [legendFontSize]="12"
+  ></ntc-construction-week-card-range-chart>
+</div>
+<div>
+  <ntc-construction-week-card-range-average
+    [icons]="'line_graph'"
+    [title]="'平均出来高'"
+    [past7DaysAverage]="past7DaysAverage"
+    [past5WeekAverage]="past5WeekAverage"
+    [past5MonthAverage]="past5MonthAverage"
+  ></ntc-construction-week-card-range-average>
+</div>
