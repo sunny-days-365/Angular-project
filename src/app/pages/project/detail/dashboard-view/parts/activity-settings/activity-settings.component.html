@@ -1,0 +1,369 @@
+<div class="wrap-panel">
+  <ntc-parts-components-base-drawer
+    [title]="'進捗確認設定'"
+    [withBorders]="true"
+    (closeDrawer)="onClose()"
+  >
+    <div class="wrap-form">
+      <form [formGroup]="form">
+        <div class="input-wrapper">
+          <label>名称</label>
+          <ntc-basic-deletable-select
+            #selectActivityComponent
+            formControlName="selectActivity"
+            [options]="optionsActivity ?? []"
+            placeHolder="進捗確認設定を選択"
+            addText="進捗確認設定を追加"
+            [modusComponentsStyle]="true"
+            [firstEditable]="true"
+            [ellipsis]="true"
+            [tooltipOffset]="12"
+            (addSelected)="onAddActivity()"
+            (editSelected)="onEditActivity($event)"
+            (deleteSelected)="onDeleteActivity($event)"
+            [disabled]="
+              !projectAccessControlService.isConstructionHistoryReportAvailable()
+            "
+          ></ntc-basic-deletable-select>
+        </div>
+
+        <div class="tabs font-size-medium">
+          <div
+            (click)="onToggleTabs(this.viewModel.tabType.SettingAction)"
+            class="tab"
+            [class.active]="
+              this.viewModel.isTabTypeSelected(
+                this.viewModel.tabType.SettingAction
+              )
+            "
+          >
+            計算条件
+          </div>
+          <div
+            (click)="onToggleTabs(this.viewModel.tabType.DateGoal)"
+            class="tab"
+            [class.active]="
+              this.viewModel.isTabTypeSelected(this.viewModel.tabType.DateGoal)
+            "
+          >
+            計算期間
+          </div>
+        </div>
+
+        <div
+          [class.hidden]="
+            !this.viewModel.isTabTypeSelected(
+              this.viewModel.tabType.SettingAction
+            )
+          "
+        >
+          <div class="input-wrapper">
+            <label>切り／盛り</label>
+            <select formControlName="selectSubType">
+              <option
+                *ngFor="let option of optionsSubType"
+                [value]="option.value"
+              >
+                {{ option.text }}
+              </option>
+            </select>
+          </div>
+
+          <div class="input-wrapper">
+            <ntc-modus-select
+              placeholder="設計データを選択"
+              formControlName="selectDesignSurface"
+              [formControl]="form.controls['selectDesignSurface']"
+              label="設計データ"
+              [options]="optionsDesignSurface"
+              optionsDisplayProp="display"
+              [iconList]="modelTypeIconList"
+              [required]="true"
+            ></ntc-modus-select>
+          </div>
+
+          <div class="input-wrapper">
+            <ntc-modus-select
+              placeholder="起工測量データを選択"
+              formControlName="selectExistingGround"
+              [formControl]="form.controls['selectExistingGround']"
+              label="起工測量データ"
+              [options]="optionsExistingGround"
+              optionsDisplayProp="display"
+              [iconList]="modelTypeIconList"
+              [required]="true"
+            ></ntc-modus-select>
+            <div class="surveyDateTime">
+              <span class="title">測量日時：</span>
+              <span class="value" *ngIf="surveyDateTime">{{
+                surveyDateTime | date: 'yyyy/MM/dd HH:mm:ss' : 'JST'
+              }}</span>
+            </div>
+          </div>
+
+          <div class="input-wrapper">
+            <label>対象エリア</label>
+            <select formControlName="selectTargetArea">
+              <option
+                *ngFor="let option of optionsTargetArea"
+                [value]="option.value"
+              >
+                {{ option.text }}
+              </option>
+            </select>
+          </div>
+
+          <div
+            [class.hidden]="
+              !viewModel.isTargetAreaSelected(viewModel.targetAreaType.Custom)
+            "
+          >
+            <div class="input-wrapper">
+              <ntc-modus-select
+                placeholder="境界線データを選択"
+                formControlName="selectBoundary"
+                [formControl]="form.controls['selectBoundary']"
+                label="境界線データ"
+                [options]="optionsBoundary"
+                optionsDisplayProp="display"
+                [iconList]="modelTypeIconList"
+              ></ntc-modus-select>
+            </div>
+          </div>
+
+          <div
+            [class.hidden]="
+              !viewModel.isTargetAreaSelected(
+                viewModel.targetAreaType.Alignment
+              )
+            "
+          >
+            <div class="input-wrapper">
+              <ntc-modus-select
+                placeholder="線形データを選択"
+                formControlName="selectAlignment"
+                [formControl]="form.controls['selectAlignment']"
+                label="線形データ"
+                [options]="optionsAlignment"
+                optionsDisplayProp="display"
+                [iconList]="modelTypeIconList"
+              ></ntc-modus-select>
+            </div>
+
+            <div class="input-wrapper station">
+              <!-- Station Selection Dropdowns -->
+              <div class="station-selectors">
+                <label>測点範囲</label>
+                <div class="station-selector">
+                  <ntc-modus-select
+                    placeholder="開始測点を選択"
+                    [options]="filteredStartStationOptions"
+                    formControlName="selectStartStation"
+                    optionsDisplayProp="display"
+                    optionsValueProp="id"
+                    [disabled]="isStationDisabled"
+                    [title]="getStationDescription(selectedStartStationIndex)"
+                    (valueChange)="onStartStationChange($event)"
+                  ></ntc-modus-select>
+                  <ntc-modus-select
+                    placeholder="終了測点を選択"
+                    [options]="filteredEndStationOptions"
+                    formControlName="selectEndStation"
+                    optionsDisplayProp="display"
+                    optionsValueProp="id"
+                    [disabled]="isStationDisabled"
+                    [title]="getStationDescription(selectedEndStationIndex)"
+                    (valueChange)="onEndStationChange($event)"
+                  ></ntc-modus-select>
+                </div>
+              </div>
+
+              <!-- Slider Controls -->
+              <div class="multiSlider">
+                <div class="bar" [class.disabled]="isStationDisabled"></div>
+                <input
+                  type="range"
+                  formControlName="startStation"
+                  [class.disabled]="isStationDisabled"
+                  min="0"
+                  [max]="sliderMax"
+                  [value]="initialStartStation"
+                />
+                <input
+                  type="range"
+                  formControlName="endStation"
+                  [class.disabled]="isStationDisabled"
+                  min="0"
+                  [max]="sliderMax"
+                  [value]="initialEndStation"
+                />
+              </div>
+            </div>
+
+            <div class="input-wrapper">
+              <label>左右オフセット</label>
+              <div class="offset">
+                <ntc-base-unit-input
+                  #leftOffsetInput
+                  [unit]="'m'"
+                  formControlName="leftOffset"
+                  [textAlign]="'right'"
+                ></ntc-base-unit-input>
+                <ntc-base-unit-input
+                  #rightOffsetInput
+                  [unit]="'m'"
+                  formControlName="rightOffset"
+                  [textAlign]="'right'"
+                ></ntc-base-unit-input>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          [class.hidden]="
+            !this.viewModel.isTabTypeSelected(this.viewModel.tabType.DateGoal)
+          "
+        >
+          <div class="input-wrapper">
+            <label>計算期間</label>
+            <modus-date-picker>
+              <ntc-modus-date-input
+                #startDateInput
+                formControlName="startDate"
+                type="start"
+                format="yyyy/mm/dd"
+                allowedCharsRegex="[\d/]"
+                showCalendarIcon="true"
+                placeholder="{{ today | date: 'yyyy/MM/dd' }}"
+                clearable="true"
+                [disableValidation]="true"
+                [errorBoxWidthMax]="true"
+                [disabled]="!isCurrentActivitySelected"
+                [minDate]="minDateStr"
+                [maxDate]="maxDateStr"
+              ></ntc-modus-date-input>
+              <ntc-modus-date-input
+                #endDateInput
+                formControlName="endDate"
+                [(ngModel)]="strEndDate"
+                type="single"
+                format="yyyy/mm/dd"
+                allowedCharsRegex="[\d/]"
+                showCalendarIcon="true"
+                placeholder="{{ today | date: 'yyyy/MM/dd' }}"
+                clearable="true"
+                [disableValidation]="true"
+                [disabled]="!isCurrentActivitySelected"
+                [showDivider]="false"
+                [minDate]="minDateStr"
+                [maxDate]="maxDateStr"
+              ></ntc-modus-date-input>
+            </modus-date-picker>
+            <div class="workingDayCount">
+              稼働日数<span>{{ workingDayCount }}</span
+              >日
+            </div>
+          </div>
+
+          <div class="input-wrapper">
+            <ntc-base-unit-input
+              #rateForOneDayInput
+              [unit]="'m³'"
+              formControlName="rateForOneDay"
+              [textAlign]="'right'"
+              [label]="'日当たり施工数量'"
+            ></ntc-base-unit-input>
+          </div>
+        </div>
+      </form>
+
+      <ntc-parts-components-basic-error-massage
+        *ngFor="let error of errorList"
+        [message]="error"
+      ></ntc-parts-components-basic-error-massage>
+
+      <hr />
+
+      <div class="calculation">
+        <div class="row">
+          <span class="title bold">計算値</span>
+          <modus-button
+            color="secondary"
+            (buttonClick)="openConfirmModal(false)"
+            [disabled]="
+              !projectId ||
+              isLoading ||
+              form.invalid ||
+              !isDateRangeValid ||
+              !isUpdatable ||
+              !isCurrentActivitySelected ||
+              !projectAccessControlService.isConstructionHistoryReportAvailable() ||
+              checkLocks
+            "
+          >
+            計算
+          </modus-button>
+        </div>
+
+        <div
+          class="row"
+          [class.hidden]="
+            viewModel.currentActivity.isSubTypeSelected(viewModel.subType.fill)
+          "
+        >
+          <span class="title">切土量</span>
+          <span class="value">{{ toFixedString(cutEstimateVolume) }}</span>
+        </div>
+        <div
+          class="row"
+          [class.hidden]="
+            viewModel.currentActivity.isSubTypeSelected(viewModel.subType.cut)
+          "
+        >
+          <span class="title">盛土量</span>
+          <span class="value">{{ toFixedString(fillEstimateVolume) }}</span>
+        </div>
+        <div class="row">
+          <span class="title">合計</span>
+          <span class="value">{{ toFixedString(totalEstimateVolume) }}</span>
+        </div>
+      </div>
+      <ntc-parts-components-basic-loading-indicator2
+        *ngIf="isLoading || isAlignmentLoading"
+      ></ntc-parts-components-basic-loading-indicator2>
+    </div>
+
+    <footer>
+      <modus-button
+        color="secondary"
+        button-style="outline"
+        (buttonClick)="onClose()"
+        >キャンセル</modus-button
+      >
+      <modus-button
+        color="primary"
+        (buttonClick)="openConfirmModal(true)"
+        [disabled]="
+          !projectId ||
+          isLoading ||
+          form.invalid ||
+          !isDateRangeValid ||
+          !isUpdatable ||
+          !isCurrentActivitySelected ||
+          !projectAccessControlService.isConstructionHistoryReportAvailable() ||
+          checkLocks
+        "
+        >更新</modus-button
+      >
+    </footer>
+  </ntc-parts-components-base-drawer>
+</div>
+<ntc-activity-settings-save-activity-modal
+  #saveActivityModal
+  (emitOnClose)="onCloseSaveModal()"
+></ntc-activity-settings-save-activity-modal>
+<ntc-activity-settings-confirm-modal
+  #confirmModal
+  (emitOnClose)="onCloseConfirmModal($event)"
+></ntc-activity-settings-confirm-modal>
