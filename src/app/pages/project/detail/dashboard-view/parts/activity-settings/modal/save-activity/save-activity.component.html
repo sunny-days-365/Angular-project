@@ -1,0 +1,28 @@
+<ntc-basic-modal
+  #modal
+  ntcModal
+  [headerText]="title"
+  cancelButtonText="キャンセル"
+  nextButtonText="OK"
+  (nextClick)="onOk()"
+  (cancelClick)="onClose()"
+  (backClick)="onClose()"
+  (closeClick)="onClose()"
+  [nextButtonDisabled]="form.invalid"
+  width="450px"
+>
+  <form [formGroup]="form">
+    <div class="input-wrapper">
+      <ntc-modus-text-input
+        #input
+        label="名称"
+        [placeholder]="placeHolder"
+        formControlName="activityName"
+        includeSearchIcon="false"
+        clearable="true"
+        [errorText]="getErrorActivityName()"
+        [autoFocusInput]="true"
+      ></ntc-modus-text-input>
+    </div>
+  </form>
+</ntc-basic-modal>
