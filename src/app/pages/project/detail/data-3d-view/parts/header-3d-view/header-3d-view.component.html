@@ -1,0 +1,107 @@
+<div class="content">
+  <div class="command-list">
+    <div class="command">
+      <modus-button
+        color="secondary"
+        left-icon="ruler"
+        button-style="borderless"
+        class="hydrated"
+        (click)="openNtCommandMenu(measurement)"
+        [disabled]="projectAccessControlService.isReadOnly()"
+      >
+        チェック計算
+      </modus-button>
+    </div>
+    <div
+      class="command"
+      *ngIf="projectAccessControlService.isProductPointCloudAvailable()"
+    >
+      <modus-button
+        color="secondary"
+        left-icon="cloud"
+        button-style="borderless"
+        class="hydrated"
+        (click)="openNtCommandMenu(handleCloud)"
+        [disabled]="!projectAccessControlService.isPointCloudAvailable()"
+      >
+        点群編集
+      </modus-button>
+    </div>
+    <div class="command">
+      <modus-button
+        color="secondary"
+        left-icon="map"
+        button-style="borderless"
+        class="hydrated"
+        (click)="openNtCommandMenu(constructionSupport)"
+        [disabled]="projectAccessControlService.isReadOnly()"
+      >
+        施工用データ作成
+      </modus-button>
+    </div>
+    <div class="command">
+      <modus-button
+        color="secondary"
+        left-icon="arrow_right"
+        button-style="borderless"
+        class="hydrated"
+        [disabled]="checkIfDisabled(sendConstructionSetting)"
+        (click)="openNtCommand(sendConstructionSetting)"
+      >
+        設計送信
+      </modus-button>
+    </div>
+    <div
+      class="command"
+      *ngIf="
+        projectAccessControlService.isProductConstructionHistoryAvailable()
+      "
+    >
+      <modus-button
+        color="secondary"
+        left-icon="update"
+        button-style="borderless"
+        class="hydrated"
+        (click)="openNtCommandMenu(constructionHistory)"
+        [disabled]="
+          !projectAccessControlService.isConstructionHistoryAvailable()
+        "
+      >
+        施工履歴取得
+      </modus-button>
+    </div>
+    <div class="command">
+      <modus-button
+        color="secondary"
+        left-icon="clipboard_planning"
+        button-style="borderless"
+        class="hydrated"
+        (click)="openNtCommandMenu(report)"
+        [disabled]="projectAccessControlService.isReadOnly()"
+      >
+        レポート
+      </modus-button>
+    </div>
+  </div>
+  <hr />
+  <div class="button-list">
+    <div class="button">
+      <modus-button
+        color="primary"
+        left-icon="add"
+        button-style="fill"
+        class="hydrated"
+        (click)="openImportPopup()"
+        [disabled]="!projectAccessControlService.isBasicAvailable()"
+      >
+        インポート
+      </modus-button>
+    </div>
+  </div>
+</div>
+
+<ntc-import-popup #importPopup *ngIf="importPopupLoaded" />
+
+<ntc-toolbars-3d-construction-history-confirmation-modal
+  #constructionHistoryModal
+/>
