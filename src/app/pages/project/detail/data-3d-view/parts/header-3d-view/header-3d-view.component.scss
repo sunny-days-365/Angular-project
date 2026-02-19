@@ -1,0 +1,60 @@
+@import './modus-styles.scss';
+
+.content {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+
+  .command-list {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    .command {
+      margin: auto 0;
+
+      modus-button {
+        font-size: var(--font-size-h5, 14px);
+        color: var(--modus-gray-6, #6a6e79);
+      }
+
+      label {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 2px;
+        padding: 4px 8px;
+
+        font-size: var(--font-size-h5, 14px);
+        color: var(--modus-gray-6, #6a6e79);
+
+        &:last-of-type {
+          padding-right: 0;
+        }
+      }
+    }
+  }
+
+  hr {
+    border: none;
+    border-left: var(--modus-border1);
+    height: 31px;
+    padding: 0;
+    margin: auto 0;
+  }
+
+  .button-list {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+
+    .button {
+      margin: auto 0;
+
+      modus-button {
+        font-size: var(--font-size-h5, 14px);
+      }
+    }
+  }
+}
