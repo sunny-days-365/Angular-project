@@ -1,0 +1,110 @@
+<div class="display-setting">
+  <div class="display-setting__header">
+    <span class="display-setting__header__title">表示設定</span>
+    <modus-button
+      button-style="borderless"
+      color="secondary"
+      icon-only="close"
+      (buttonClick)="onBackToModelList()"
+    ></modus-button>
+  </div>
+
+  <div class="display-setting__content">
+    <div class="display-setting__content__setting-group">
+      <span class="display-setting__content__setting-group__title"
+        >点群データ</span
+      >
+
+      <div class="display-setting__content__setting-item">
+        <span> 輪郭を強調する </span>
+        <ntc-modus-switch
+          [checked]="highlightEdge"
+          (switchClick)="onToggleHighlightEdge()"
+        ></ntc-modus-switch>
+      </div>
+
+      <!--
+      2025/09/05 コメントアウト
+      反射強度、標高の表示は今後のバージョンで対応予定
+      <div class="display-setting__content__setting-item">
+        <span> 反射強度を表示する </span>
+        <ntc-modus-switch
+          [checked]="reflectionIntensity"
+          (switchClick)="onToggleReflectionIntensity()"
+        ></ntc-modus-switch>
+      </div>
+      -->
+
+      <div class="display-setting__content__setting-item">
+        <span> 標高を表示する </span>
+        <ntc-modus-switch
+          [checked]="elevation"
+          (switchClick)="onToggleElevation()"
+        ></ntc-modus-switch>
+      </div>
+
+      <div class="display-setting__content__setting-item">
+        <span> ポイントのサイズ </span>
+        <div class="display-setting__content__setting-item__slider-box">
+          <span>{{ pointSize }}</span>
+          <modus-slider
+            [minValue]="minPointSize"
+            [maxValue]="maxPointSize"
+            [value]="pointSize"
+            (valueInput)="onChangePointSize($event)"
+          ></modus-slider>
+        </div>
+      </div>
+    </div>
+
+    <div class="display-setting__content__setting-group">
+      <span class="display-setting__content__setting-group__title"
+        >線形データ</span
+      >
+
+      <div class="display-setting__content__setting-item">
+        <span>測点ラベルを表示する</span>
+        <ntc-modus-switch
+          [checked]="showStationLabels"
+          (switchClick)="onToggleStationLabels()"
+        ></ntc-modus-switch>
+      </div>
+
+      <div class="display-setting__content__setting-button">
+        <modus-button
+          button-style="fill"
+          color="secondary"
+          size="small"
+          (buttonClick)="onOpenStationFormatSettings()"
+          >測点設定
+        </modus-button>
+      </div>
+    </div>
+
+    <div class="display-setting__content__setting-group">
+      <span class="display-setting__content__setting-group__title"
+        >座標表示</span
+      >
+
+      <div class="display-setting__content__setting-item">
+        <span>数学系で表示する</span>
+        <ntc-modus-switch
+          [checked]="xyzMode"
+          (switchClick)="onToggleCoordinateMode()"
+        ></ntc-modus-switch>
+      </div>
+    </div>
+
+    <div class="display-setting__content__setting-group">
+      <span class="display-setting__content__setting-group__title">ビュー</span>
+
+      <div class="display-setting__content__setting-item">
+        <span>保存したビューを初期表示する</span>
+        <ntc-modus-switch
+          [checked]="restoreSaved"
+          (switchClick)="onToggleRestoreSaved()"
+        ></ntc-modus-switch>
+      </div>
+    </div>
+  </div>
+</div>
