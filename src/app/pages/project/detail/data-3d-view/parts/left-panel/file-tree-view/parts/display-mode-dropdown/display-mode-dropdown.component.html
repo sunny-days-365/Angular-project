@@ -1,0 +1,19 @@
+<div class="display-mode-dropdown">
+  <div class="dropdown-button" (click)="toggleDropdown()" [class.open]="isOpen">
+    <span class="selected-text">{{ getSelectedDisplayText() }}</span>
+    <i class="modus-icons" aria-hidden="true" [class.rotated]="isOpen"
+      >caret_down</i
+    >
+  </div>
+
+  <div class="dropdown-menu" *ngIf="isOpen">
+    <div
+      class="dropdown-option"
+      *ngFor="let option of options"
+      [class.selected]="selectedOption?.id === option.id"
+      (click)="selectOption(option)"
+    >
+      {{ option.display }}
+    </div>
+  </div>
+</div>
