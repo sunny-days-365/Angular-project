@@ -1,0 +1,30 @@
+<div class="filter-bar">
+  <ntc-project-detail-data-3d-view-parts-point-list-panel-filter-bar-multi-selector
+    label="種別"
+    [options]="pointTypeFilterOptions"
+    [showBlankItemCheckbox]="true"
+    blankItemCheckboxLabel="種別なし"
+    (selectedIndexesChange)="onPointTypeFilterChanged($event)"
+  ></ntc-project-detail-data-3d-view-parts-point-list-panel-filter-bar-multi-selector>
+
+  <ntc-project-detail-data-3d-view-parts-point-list-panel-filter-bar-date-range-picker
+    label="測量日"
+    (dateRangeChange)="onDateRangeFilterChanged($event)"
+    class="filter-bar__limited-datepicker"
+  ></ntc-project-detail-data-3d-view-parts-point-list-panel-filter-bar-date-range-picker>
+
+  <ntc-project-detail-data-3d-view-parts-point-list-panel-filter-bar-multi-selector
+    #FileNameFilter
+    label="モデル名"
+    [options]="fileNameFilterOptions"
+    (selectedIndexesChange)="onFileNameFilterChanged($event)"
+    size="lg"
+    menuPosition="right"
+  ></ntc-project-detail-data-3d-view-parts-point-list-panel-filter-bar-multi-selector>
+
+  <div class="filter-bar__sort-menu">
+    <ntc-project-detail-data-3d-view-parts-point-list-panel-filter-bar-sort-menu
+      (sortOptionChange)="onSortOptionChange($event)"
+    ></ntc-project-detail-data-3d-view-parts-point-list-panel-filter-bar-sort-menu>
+  </div>
+</div>

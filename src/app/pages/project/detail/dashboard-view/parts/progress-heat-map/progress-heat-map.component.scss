@@ -1,0 +1,32 @@
+@import './variables.scss';
+
+.card-wrapper {
+  font-family: $fontFamily !important;
+  height: 100%;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px;
+    border-bottom: 1px solid $neutral-200;
+
+    &__left {
+      font-weight: 600;
+      font-size: $text-lg;
+      line-height: 32px;
+      color: $neutral-900;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+
+      span {
+        font-size: $text-sm;
+      }
+    }
+  }
+
+  &__container {
+    height: calc(100% - 49px);
+  }
+}
