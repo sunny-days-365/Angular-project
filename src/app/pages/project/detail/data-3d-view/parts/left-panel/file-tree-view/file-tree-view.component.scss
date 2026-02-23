@@ -1,0 +1,367 @@
+@import './modus-styles.scss';
+@import './variables.scss';
+
+.file-tree-view {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  modus-toast {
+    position: fixed;
+    left: 350px;
+    top: 150px;
+    z-index: 99999;
+  }
+
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  &__actionbar {
+    display: flex;
+    justify-content: space-between;
+
+    // フィルターボタンのアクティブ状態
+    modus-button.active {
+      ::ng-deep .modus-button {
+        background-color: #0063a3 !important;
+        color: white !important;
+
+        &:hover {
+          background-color: #004d7a !important;
+        }
+      }
+    }
+
+    modus-tooltip.toggle-side-panel-btn {
+      z-index: 10;
+    }
+
+    &__actionitems {
+      justify-content: left;
+      align-items: center;
+      display: flex;
+
+      &__spinner {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+        width: 36px;
+      }
+
+      ::ng-deep ntc-dropdown-button {
+        .dropdownButton {
+          .optional {
+            .expand {
+              top: 33px;
+              left: -32px;
+            }
+            ul {
+              padding: 8px;
+              box-shadow:
+                0 0 0.06rem rgba(54, 53, 69, 0.2),
+                0.12rem 0.12rem 0.5rem rgba(54, 53, 69, 0.3);
+              li {
+                padding: 6px 8px;
+                font-size: $text-sm;
+                color: #252a2e;
+                &:hover {
+                  background-color: $gray-0;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__action {
+    align-items: center;
+    border-bottom: 1px solid #eaecf0;
+    padding: 8px 12px 0px 12px;
+    background: #ffffff;
+
+    span {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    ntc-basic-multi-select {
+      flex-grow: 1;
+    }
+  }
+
+  &__content {
+    padding: 0;
+    position: relative;
+    overflow-y: auto;
+    flex-grow: 1;
+
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #ddd;
+      border-radius: 10px;
+      border: 2px solid #f1f1f1;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+      background-color: #aaa;
+    }
+  }
+
+  &__loading {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__dropdown {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #ffffff;
+    margin: 8px 0px;
+
+    .dropdown-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+
+      .dropdown-label {
+        font-size: $text-sm;
+        font-weight: 500;
+        white-space: nowrap;
+      }
+
+      .display-mode-select {
+        min-width: 150px;
+      }
+    }
+
+    // unfold_lessボタンをドロップダウンパネルの右側に配置
+    .dropdown-actions {
+      display: flex;
+      align-items: center;
+
+      .foldIcon {
+        display: flex;
+        align-items: center;
+        border-radius: 0.25rem;
+        cursor: pointer;
+        transition:
+          color 0.1s ease-in-out,
+          background-color 0.1s ease-in-out,
+          border-color 0.1s ease-in-out,
+          box-shadow 0.1s ease-in-out;
+
+        &:hover {
+          background-color: $gray-0;
+        }
+        &:active {
+          background-color: #cbcdd6;
+        }
+
+        modus-tooltip {
+          height: 24px;
+        }
+      }
+    }
+  }
+}
+
+.select-type {
+  display: flex;
+  &-header {
+    position: relative;
+    font-size: $text-ss;
+    font-family: 'Inter', sans-serif !important;
+    width: 50%;
+    &-button {
+      width: 95%;
+    }
+  }
+
+  &-body {
+    display: flex;
+    justify-content: flex-start; // 子要素を左寄せに配置
+    width: 100%;
+    &-input {
+      flex-grow: 1;
+      margin-right: 5px;
+    }
+  }
+
+  &-button {
+    position: relative;
+    display: inline-block;
+    padding: 10px 0;
+    &-add {
+      margin-right: 5px;
+    }
+  }
+}
+
+.options-dropdown {
+  position: absolute;
+  width: 90%;
+  padding: 8px;
+  background-color: white;
+  border: 1px solid #eaecf0;
+  box-shadow:
+    0 0 0.06rem rgba(54, 53, 69, 0.2),
+    0.12rem 0.12rem 0.5rem rgba(54, 53, 69, 0.3);
+  z-index: 1000;
+  cursor: default;
+  .select-list {
+    display: block;
+    padding: 10px 50px 10px 10px;
+    font-size: $text-ss;
+    border-bottom: 1px solid #e0e0e0;
+    font-family: 'Inter', sans-serif !important;
+    cursor: pointer;
+    &-label {
+      padding: 6px 12px;
+      color: #252a2e;
+    }
+
+    &:hover {
+      cursor: pointer;
+      background-color: #e6f3ff;
+    }
+  }
+}
+
+.multi-select-filter {
+  width: 45%;
+}
+
+.filter-bar {
+  justify-content: flex-start;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0px;
+
+  .foldIcon {
+    display: flex;
+    align-items: center;
+
+    border-radius: 0.25rem;
+
+    cursor: pointer;
+
+    transition:
+      color 0.1s ease-in-out,
+      background-color 0.1s ease-in-out,
+      border-color 0.1s ease-in-out,
+      box-shadow 0.1s ease-in-out;
+
+    &:hover {
+      background-color: $gray-0;
+    }
+    &:active {
+      background-color: #cbcdd6;
+    }
+
+    modus-tooltip {
+      height: 24px;
+    }
+  }
+
+  &.tag-edit-bar {
+    modus-tooltip:last-of-type {
+      margin-left: auto;
+    }
+  }
+
+  &.file-tree-view-filter {
+    justify-content: space-around;
+    gap: unset;
+  }
+}
+
+.edit-bar {
+  min-height: 32px;
+  padding: 8px 6px;
+  border-bottom: 1px solid #d1d5db;
+
+  &__mode-selector {
+    display: flex;
+    align-items: center;
+    column-gap: 8px;
+
+    &__mode-chip {
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: $text-ss;
+      color: white;
+      background-color: #374151;
+      padding: 0 8px;
+      border-radius: 2px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #6b7280;
+      }
+    }
+
+    modus-button {
+      margin-left: auto;
+    }
+  }
+
+  &__type-editor {
+    display: flex;
+    column-gap: 8px;
+
+    modus-autocomplete {
+      flex-grow: 1;
+    }
+  }
+
+  &__date-editor {
+    display: flex;
+    column-gap: 8px;
+
+    modus-date-picker {
+      margin-right: -8px;
+      text-wrap: nowrap;
+    }
+
+    ntc-modus-time-picker {
+      text-wrap: nowrap;
+    }
+  }
+}
+
+.disabled {
+  color: rgb(218, 218, 218);
+  background-color: #acacac;
+  &:hover {
+    color: rgb(218, 218, 218);
+    background-color: #acacac;
+    user-select: none;
+    cursor: default;
+  }
+}
+
+::ng-deep path {
+  fill: gray !important;
+}

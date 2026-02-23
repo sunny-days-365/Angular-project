@@ -1,0 +1,18 @@
+@import './variables.scss';
+
+.filter-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 8px 6px;
+  column-gap: 4px;
+  border-bottom: 1px solid $border-light-gray;
+
+  &__limited-datepicker {
+    max-width: 95px;
+  }
+
+  &__sort-menu {
+    margin-left: auto;
+  }
+}

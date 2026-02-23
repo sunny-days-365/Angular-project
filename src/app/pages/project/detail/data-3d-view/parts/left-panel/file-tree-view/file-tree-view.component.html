@@ -1,0 +1,300 @@
+<div class="file-tree-view app-modus-loading-container">
+  <div class="file-tree-view__header">
+    <div class="file-tree-view__action">
+      <div class="file-tree-view__actionbar">
+        <!-- Commented elements will be removed once the updated 3DV UI is ready for each functionality -->
+        <!-- Currently, these will remain as commented -->
+
+        <!--<modus-button
+          button-style="borderless"
+          color="secondary"
+          icon-only="window_resize"
+          (click)="showModel()"
+          </modus-button>
+        > -->
+        <!-- RTC機能が準備できたら、このリフレッシュボタンはもう必要なくなるよ。 -->
+        <div class="file-tree-view__actionbar__actionitems">
+          <modus-tooltip text="最新表示">
+            <modus-button
+              button-style="borderless"
+              color="secondary"
+              icon-only="refresh"
+              (click)="refreshModelList()"
+            >
+            </modus-button>
+          </modus-tooltip>
+
+          <ntc-dropdown-button
+            icon="visibility_off"
+            primaryText="すべて表示オフ"
+            secondaryText="初期状態を表示"
+            primaryTextOption="表示状態オプション"
+            (primaryFunc)="allModelVisibilityOff()"
+            (secondaryFunc)="resetAllModelVisibility()"
+          ></ntc-dropdown-button>
+
+          <ntc-dropdown-button
+            icon="camera"
+            primaryText="ビューを初期状態に保存"
+            secondaryText="ビューをサムネイル登録"
+            primaryTextOption="ビューオプション"
+            (primaryFunc)="saveModel()"
+            (secondaryFunc)="takeSnapShot()"
+            [disabled]="checkDisabledForSaveModel()"
+            *ngIf="!isSaving"
+          ></ntc-dropdown-button>
+          <modus-spinner
+            [size]="'14px'"
+            *ngIf="isSaving"
+            class="file-tree-view__actionbar__actionitems__spinner"
+          ></modus-spinner>
+
+          <modus-tooltip text="編集">
+            <modus-button
+              button-style="borderless"
+              color="secondary"
+              icon-only="pencil"
+              [disabled]="checkDisabledForEdit()"
+              [class.edit-button-disabled]="isTagEditMode"
+              (buttonClick)="handleEditBtnClicked()"
+            ></modus-button>
+          </modus-tooltip>
+
+          <modus-tooltip text="タグ編集">
+            <modus-button
+              button-style="borderless"
+              color="secondary"
+              icon-only="tag"
+              [disabled]="checkDisabledForEdit()"
+              [class.tag-button-disabled]="isEditMode"
+              [class.active]="isTagEditMode"
+              (buttonClick)="toggleTagEditMode()"
+            ></modus-button>
+          </modus-tooltip>
+
+          <!-- フィルターボタンを追加 -->
+
+          <modus-tooltip text="表示設定">
+            <modus-button
+              button-style="borderless"
+              color="secondary"
+              icon-only="settings"
+              (click)="showDisplaySettingPanel()"
+            >
+            </modus-button>
+          </modus-tooltip>
+        </div>
+
+        <modus-tooltip text="パネルの切り替え" class="toggle-side-panel-btn">
+          <modus-button
+            button-style="borderless"
+            color="secondary"
+            icon-only="switch_right"
+            (click)="toggleSidePanelClick()"
+          >
+          </modus-button>
+        </modus-tooltip>
+      </div>
+
+      <!-- 編集モードバー -->
+      <div
+        class="file-tree-view__actionbar filter-bar edit-bar__mode-selector"
+        *ngIf="isEditMode"
+      >
+        <div
+          class="edit-bar__mode-selector__mode-chip"
+          (click)="moveToTrashMultiItems()"
+          [ngClass]="{ disabled: checkDisabledForDelete() }"
+        >
+          ゴミ箱へ移動
+        </div>
+        <div
+          class="edit-bar__mode-selector__mode-chip"
+          (click)="restoreMultiItems()"
+          [ngClass]="{ disabled: checkDisabledForTrash() }"
+        >
+          元に戻す
+        </div>
+        <div
+          class="edit-bar__mode-selector__mode-chip"
+          (click)="deleteMultiItems()"
+          [ngClass]="{ disabled: checkDisabledForTrash() }"
+        >
+          削除
+        </div>
+        <modus-button
+          button-style="borderless"
+          color="tertiary"
+          icon-only="close"
+          (buttonClick)="exitEditMode()"
+        ></modus-button>
+      </div>
+
+      <!-- タグ編集バー -->
+      <div
+        class="file-tree-view__actionbar filter-bar tag-edit-bar"
+        *ngIf="isTagEditMode"
+      >
+        <modus-autocomplete
+          placeholder="タグを入力"
+          includeSearchIcon="false"
+          showNoResultsFoundMessage="false"
+          [options]="getFilteredTagSuggestions()"
+          [value]="currentTagInput"
+          (optionSelected)="handleTagInputSelected($event)"
+          (inputChange)="handleTagInputChange($event)"
+          (input)="handleTagInputChange($event)"
+          (keydown)="handleTagInputKeyDown($event)"
+          (keyup)="handleTagInputChange($event)"
+          class="tag-autocomplete-input"
+          #tagInput
+        ></modus-autocomplete>
+
+        <modus-tooltip text="選択したモデルにタグを追加" position="bottom">
+          <div
+            class="edit-bar__mode-selector__mode-chip"
+            color="tertiary"
+            [ngClass]="{
+              disabled:
+                getSelectedModelCount() === 0 ||
+                isTagInputEmpty() ||
+                isTagInputTooLong()
+            }"
+            (click)="handleAddTagClick()"
+          >
+            追加
+          </div>
+        </modus-tooltip>
+
+        <modus-tooltip text="選択したモデルのタグを全て削除" position="bottom">
+          <div
+            class="edit-bar__mode-selector__mode-chip"
+            color="tertiary"
+            [ngClass]="{ disabled: getSelectedModelCount() === 0 }"
+            (click)="bulkRemoveTags()"
+          >
+            削除
+          </div>
+        </modus-tooltip>
+
+        <modus-tooltip text="タグ編集を終了" position="bottom">
+          <modus-button
+            button-style="borderless"
+            color="tertiary"
+            icon-only="close"
+            (buttonClick)="toggleTagEditMode()"
+            class="tag-close-btn"
+          ></modus-button>
+        </modus-tooltip>
+      </div>
+
+      <!-- 表示モードドロップダウンナビゲーション -->
+      <div
+        class="file-tree-view__dropdown"
+        *ngIf="!isEditMode && !isTagEditMode"
+      >
+        <div class="dropdown-container">
+          <ntc-display-mode-dropdown
+            [options]="dropdownOptions"
+            [selectedOption]="getCurrentDropdownOption()"
+            (optionSelected)="onDropdownValueChange($event)"
+            class="display-mode-select"
+          ></ntc-display-mode-dropdown>
+        </div>
+        <modus-tooltip text="フィルター" position="bottom">
+          <modus-button
+            class="gray-button"
+            button-style="borderless"
+            color="secondary"
+            icon-only="filter"
+            [class.active]="showFilterToolbar$ | async"
+            (click)="toggleFilterToolbar()"
+          >
+          </modus-button>
+        </modus-tooltip>
+        <div class="dropdown-actions">
+          <div class="foldIcon" (click)="toggleTreeItem()">
+            <ng-container *ngIf="!treeItemFolded">
+              <modus-tooltip [text]="'すべて閉じる'" position="bottom">
+                <i class="modus-icons" aria-hidden="true">unfold_less</i>
+              </modus-tooltip>
+            </ng-container>
+            <ng-container *ngIf="treeItemFolded">
+              <modus-tooltip [text]="'すべて展開'" position="bottom">
+                <i class="modus-icons" aria-hidden="true">unfold_more</i>
+              </modus-tooltip>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+
+      <!-- 表示対象選択バー -->
+      <div
+        class="file-tree-view__actionbar filter-bar file-tree-view-filter"
+        *ngIf="!isEditMode && !isTagEditMode && (showFilterToolbar$ | async)"
+      >
+        <ntc-project-detail-data-3d-view-parts-file-tree-view-filter-bar-multi-selector
+          label="分類"
+          [options]="dynamicModelKindFilterOptionsLabel"
+          [selectedIndexes]="getSelectedModelKindIndices()"
+          (selectedIndexesChange)="onModelKindFilterChange($event)"
+          class="multi-select-filter"
+          size="lg"
+          menuPosition="right"
+        ></ntc-project-detail-data-3d-view-parts-file-tree-view-filter-bar-multi-selector>
+        <ntc-project-detail-data-3d-view-parts-file-tree-view-filter-bar-multi-selector
+          label="タグ"
+          [options]="tagFilterOptionsLabel"
+          [selectedIndexes]="getSelectedTagIndices()"
+          (selectedIndexesChange)="onModelTagFilterChange($event)"
+          class="multi-select-filter"
+          size="lg"
+          menuPosition="right"
+          [isRight]="true"
+        ></ntc-project-detail-data-3d-view-parts-file-tree-view-filter-bar-multi-selector>
+      </div>
+    </div>
+  </div>
+  <div class="file-tree-view__content">
+    <ntc-project-detail-data-3d-view-parts-tree-list-file
+      #data3dViewTree
+      [dataAccordion]="filteredModelsTree"
+      [isEditMode]="isEditMode || isTagEditMode"
+      [isTagEditMode]="isTagEditMode"
+      [checkTree]="filteredCheckTree"
+      [checkParent]="checkParent"
+      [hideTagsInList]="shouldHideTagsInList()"
+      [shouldShowTagChips]="shouldShowTagChips()"
+      [tagSources]="tagFilterOptions"
+      [tagRelation]="tagRelation"
+      (exitEditMode)="exitEditMode()"
+      (exitTagEditMode)="toggleTagEditMode()"
+      (isTrashSelectedEvent)="trashItemSelected($event)"
+      (checkTreeChanged)="handleCheckTreeChanged($event)"
+      (tagClicked)="onTagClicked($event)"
+    ></ntc-project-detail-data-3d-view-parts-tree-list-file>
+  </div>
+  <modus-toast
+    *ngIf="showSavedToast"
+    type="success"
+    dismissible="true"
+    (dismissClick)="hideSavedToast()"
+    >{{ toastMessage }}</modus-toast
+  >
+  <modus-toast
+    *ngIf="showErrorToast"
+    type="danger"
+    dismissible="true"
+    (dismissClick)="hideErrorToast()"
+    >{{ errorToastMessage }}</modus-toast
+  >
+  <ng-container *ngrxLet="isLoading$ as isLoading">
+    <div
+      class="app-modus-loading-icon file-tree-view__loading"
+      *ngIf="isLoading"
+    >
+      <modus-spinner size="2rem"></modus-spinner>
+    </div>
+  </ng-container>
+  <ntc-project-detail-data-3d-view-parts-change-area-modal #changeAreaModal />
+</div>
