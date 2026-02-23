@@ -1,0 +1,55 @@
+@import './variables.scss';
+
+.display-setting {
+  &__header {
+    padding: 16px;
+    padding-left: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid $border-light-gray;
+
+    &__title {
+      font-size: 18px;
+      font-style: normal;
+      font-weight: 600;
+    }
+  }
+
+  &__content {
+    &__setting-group {
+      padding: 16px;
+      border-bottom: 1px solid $border-light-gray;
+
+      &__title {
+        font-size: 16px;
+      }
+    }
+
+    &__setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 18px;
+
+      span {
+        font-size: 14px;
+      }
+
+      &__slider-box {
+        display: flex;
+        gap: 4px;
+
+        modus-slider {
+          width: 100px;
+        }
+      }
+    }
+
+    &__setting-button {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+  }
+}

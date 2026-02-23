@@ -1,0 +1,171 @@
+@import './variables.scss';
+@import './mixin.scss';
+@import './styles.scss';
+
+.file__item {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  justify-content: space-between;
+  font-size: $text-sm;
+  padding: 4px 6px 4px 10px;
+  cursor: pointer;
+  color: #252a2e;
+
+  &:hover {
+    background-color: $gray-0;
+  }
+
+  &__left {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    overflow: hidden;
+    user-select: none;
+
+    & > i {
+      cursor: pointer;
+      color: #6a6e79;
+    }
+
+    .modus-icons {
+      svg {
+        padding: 2px;
+      }
+    }
+
+    .model-type-icon {
+      font-size: 20px;
+
+      svg {
+        padding: 0px;
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    modus-spinner {
+      min-width: 24px;
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  &__right {
+    display: flex;
+    align-items: center;
+    width: 22px;
+    flex-shrink: 0;
+    justify-content: center;
+  }
+
+  &__version {
+    flex: 1;
+    text-align: right;
+  }
+
+  &__detail {
+    position: relative;
+
+    &__menu {
+      position: absolute;
+      display: none;
+      right: 0;
+      padding: 8px;
+      width: 238px;
+      background-color: white;
+      border: 1px solid #eaecf0;
+      box-shadow:
+        0 0 0.06rem rgba(54, 53, 69, 0.2),
+        0.12rem 0.12rem 0.5rem rgba(54, 53, 69, 0.3);
+      z-index: 1000;
+      cursor: default;
+
+      &__item {
+        cursor: pointer;
+        &-label {
+          padding: 6px 8px;
+          color: #252a2e;
+
+          &:hover {
+            background-color: $gray-0;
+          }
+        }
+      }
+
+      .actionDisabled {
+        cursor: default;
+
+        .file__item__detail__menu__item-label {
+          color: #a3a6b1 !important;
+          &:hover {
+            background-color: transparent !important;
+          }
+        }
+      }
+
+      &__divider {
+        padding: 4px 0;
+
+        & > div {
+          height: 1px;
+          background-color: #eaecf0;
+        }
+      }
+    }
+
+    &__backdrop {
+      cursor: default;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: transparent;
+      z-index: 999;
+    }
+  }
+
+  &__name {
+    margin: 0 4px;
+  }
+
+  // タグチップ表示エリア
+  &__tags {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: auto;
+    margin-right: 8px;
+    flex-shrink: 0;
+
+    .model-tag-chip {
+      font-size: 11px;
+
+      // クリック可能なタグチップ
+      &.clickable {
+        cursor: pointer;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+
+    // "..."チップはクリック不可
+    .more-tags {
+      cursor: default;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+ntc-parts-components-basic-error-massage {
+  display: block;
+  width: 100%;
+  margin-top: 16px;
+  font-size: $text-ss;
+}

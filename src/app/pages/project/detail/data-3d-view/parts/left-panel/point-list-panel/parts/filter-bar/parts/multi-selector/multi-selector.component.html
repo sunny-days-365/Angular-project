@@ -1,0 +1,60 @@
+<div class="multi-selector">
+  <div class="multi-selector__label" (click)="toggleExpand()">
+    <span
+      class="multi-selector__label__text"
+      [ngClass]="{
+        'size-lg': hasNoSelectedOptions() && size === 'lg',
+        'size-md': hasNoSelectedOptions() && size === 'md',
+        'width-plus':
+          getSelectedOptionsPlusCount() === '' &&
+          size === 'lg' &&
+          !hasNoSelectedOptions()
+      }"
+      >{{ getSelectedOptionsLabel() }}</span
+    >
+    <span
+      *ngIf="getSelectedOptionsPlusCount() !== ''"
+      class="multi-selector__label__plus-count"
+    >
+      {{ getSelectedOptionsPlusCount() }}
+    </span>
+    <i class="modus-icons" aria-hidden="true">expand_more</i>
+  </div>
+
+  <div
+    class="multi-selector__menu"
+    [ngClass]="{
+      'menu-right': menuPosition === 'right',
+      expanded: expanded
+    }"
+  >
+    <div *ngFor="let option of options; let i = index">
+      <ntc-modus-checkbox
+        [label]="option"
+        [checked]="isChecked(i)"
+        (checkboxClick)="onOptionSelect(i)"
+      ></ntc-modus-checkbox>
+    </div>
+
+    <ntc-modus-checkbox
+      *ngIf="showBlankItemCheckbox"
+      [label]="blankItemCheckboxLabel"
+      [checked]="showBlankItem"
+      (checkboxClick)="toggleBlankItem()"
+    ></ntc-modus-checkbox>
+
+    <div class="multi-selector__menu__separator"></div>
+    <modus-button
+      button-style="borderless"
+      color="secondary"
+      (buttonClick)="clearSelection()"
+      >クリアー</modus-button
+    >
+  </div>
+
+  <div
+    *ngIf="expanded"
+    class="multi-selector__backdrop"
+    (click)="expanded = false"
+  ></div>
+</div>
