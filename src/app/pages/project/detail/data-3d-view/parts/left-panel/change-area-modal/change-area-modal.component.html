@@ -1,0 +1,20 @@
+<ng-container *ngrxLet="isDrew$ as isDrew">
+  <div id="change-area-modal">
+    <modus-modal
+      ntcModal
+      #changeAreaModal
+      header-text="現場領域の登録"
+      primary-button-text="確定"
+      secondary-button-text="キャンセル"
+      [zIndex]="viewConstant.ModalZindex"
+      backdrop="static"
+      (primaryButtonClick)="handleOk()"
+      (secondaryButtonClick)="closePopup()"
+      [primaryButtonDisabled]="!isDrew"
+    >
+      <div class="map-wrapper">
+        <ntc-basic-map #areaMap />
+      </div>
+    </modus-modal>
+  </div>
+</ng-container>
