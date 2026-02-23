@@ -1,0 +1,54 @@
+<div class="point-list-panel app-modus-loading-container">
+  <div class="point-list-panel__header">
+    <div class="point-list-panel__title">
+      <modus-button
+        class="point-list-panel__title__back-btn"
+        button-style="borderless"
+        color="secondary"
+        icon-only="arrow_back"
+        (buttonClick)="onBackToModelList()"
+      ></modus-button>
+      <span class="point-list-panel__title__label"> ポイントリスト </span>
+      <modus-tooltip text="編集" class="point-list-panel__title__edit-btn">
+        <modus-button
+          button-style="borderless"
+          color="tertiary"
+          icon-only="pencil"
+          (buttonClick)="handleEditBtnClicked()"
+          [disabled]="!projectAccessControlService.isBasicAvailable()"
+        ></modus-button>
+      </modus-tooltip>
+    </div>
+  </div>
+  <div class="point-list-panel__content">
+    <ntc-project-detail-data-3d-view-parts-point-list-panel-filter-bar
+      [ngClass]="{ hidden: editMode !== undefined }"
+    ></ntc-project-detail-data-3d-view-parts-point-list-panel-filter-bar>
+    <ntc-project-detail-data-3d-view-parts-point-list-panel-edit-bar
+      [ngClass]="{ hidden: editMode === undefined }"
+      [editMode]="editMode"
+      [selectedPointIds]="selectedPointIds"
+      (editModeChanged)="handleEditModeChange($event)"
+      (checkAll)="checkAll($event)"
+      [checkedAll]="checkedAll"
+    ></ntc-project-detail-data-3d-view-parts-point-list-panel-edit-bar>
+
+    <div
+      class="point-list-panel__content__loader"
+      *ngIf="isLoading; else LoadedPointList"
+    >
+      <modus-spinner></modus-spinner>
+    </div>
+
+    <ng-template #LoadedPointList>
+      <ntc-project-detail-data-3d-view-parts-point-list-panel-list-view
+        #ListView
+        [listData]="pointList"
+        [editMode]="editMode"
+        [fileData]="files"
+        [objectData]="objectIds"
+        (selectionChanged)="onListSelectionChanged($event)"
+      ></ntc-project-detail-data-3d-view-parts-point-list-panel-list-view>
+    </ng-template>
+  </div>
+</div>

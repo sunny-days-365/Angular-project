@@ -1,0 +1,229 @@
+<div class="file__item" (click)="onModelSelected(model, $event)">
+  <div class="file__item__left" *ngIf="model">
+    <modus-checkbox
+      *ngIf="isEditMode === true || isTagEditMode === true"
+      [checked]="checked"
+      (click)="handleClickBox($event)"
+    ></modus-checkbox>
+    <modus-spinner
+      [size]="'10px'"
+      *ngIf="!isEditMode && (isLoading || isAssimilating)"
+    ></modus-spinner>
+    <i class="modus-icons" aria-hidden="true" *ngIf="!isEditMode && isUnload"
+      >visibility_off</i
+    >
+    <i class="modus-icons" aria-hidden="true" *ngIf="!isEditMode && isLoaded"
+      >visibility_on</i
+    >
+    <i class="modus-icons" aria-hidden="true" *ngIf="!isEditMode && isFailed"
+      >warning_outlined</i
+    >
+    <i
+      class="modus-icons"
+      aria-hidden="true"
+      *ngIf="!isEditMode && isAssimilationBusy"
+      ><svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        class="mi-outline mi-remove-circle"
+        viewBox="0 0 24 24"
+      >
+        <path
+          d="M16 11H8c-.55 0-1 .45-1 1s.45 1 1 1h8c.55 0 1-.45 1-1s-.45-1-1-1m-4-9C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2m0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8"
+        /></svg
+    ></i>
+    <ng-container *ngIf="model.modelType">
+      <ng-container
+        *ngIf="
+          model.modelType !== ModelTypes.NUMBER_3 &&
+          model.modelType !== ModelTypes.NUMBER_5
+        "
+      >
+        <i
+          class="modus-icons model-type-icon"
+          aria-hidden="true"
+          *ngIf="!isLatestConstructionData"
+          >{{ ModelIcons[model.modelType] }}</i
+        >
+        <i
+          class="modus-icons model-type-icon"
+          aria-hidden="true"
+          *ngIf="isLatestConstructionData"
+          >apps</i
+        >
+      </ng-container>
+      <ng-container
+        *ngIf="
+          model.modelType === ModelTypes.NUMBER_3 ||
+          model.modelType === ModelTypes.NUMBER_5
+        "
+      >
+        <ng-container *ngIf="!model.useForConstructionData">
+          <i
+            class="modus-icons model-type-icon"
+            aria-hidden="true"
+            *ngIf="!isLatestConstructionData"
+            >{{ ModelIcons[model.modelType] }}</i
+          >
+          <i
+            class="modus-icons model-type-icon"
+            aria-hidden="true"
+            *ngIf="isLatestConstructionData"
+            >apps</i
+          >
+        </ng-container>
+        <ng-container *ngIf="model.useForConstructionData">
+          <i
+            class="modus-icons model-type-icon"
+            aria-hidden="true"
+            *ngIf="model.modelType === ModelTypes.NUMBER_3"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              fill="currentColor"
+              class="mi-outline mi-map"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M21 2.32c-.11 0-.23.02-.35.06l-5.4 1.98-6.3-2.29a.96.96 0 0 0-.67 0l-5.6 1.95c-.4.14-.67.52-.67.94v15.78a1.003 1.003 0 0 0 1.35.94l5.29-1.96 6.29 2.22a.96.96 0 0 0 .64.01l5.71-1.87a1 1 0 0 0 .69-.95l.03-15.81c0-.57-.47-1-1-1ZM7.58 17.98 4 19.31V5.67l3.58-1.25zm6.69 1.61-4.69-1.66V4.42l4.69 1.71zm5.7-1.19-3.7 1.21V6.11l3.72-1.36z"
+              /></svg
+          ></i>
+          <i
+            class="modus-icons model-type-icon"
+            aria-hidden="true"
+            *ngIf="model.modelType === ModelTypes.NUMBER_5"
+            ><svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="22"
+              height="22"
+              fill="currentColor"
+              class="mi-outline mi-cloud"
+              viewBox="0 0 24 24"
+            >
+              <path
+                d="M7.56 18a5.25 5.25 0 1 1 0-10.5c.31 0 .62.03.95.1a5.71 5.71 0 0 1 4.9-2.8c3.11 0 5.64 2.5 5.7 5.59 1.22.39 2.18 1.37 2.55 2.62A3.9 3.9 0 0 1 19 17.84c-.33.1-.67.14-1.08.14H7.56Zm0-8.99c-2.07 0-3.75 1.68-3.75 3.75s1.68 3.75 3.75 3.75h10.36c.26-.02.47-.04.66-.1.62-.18 1.13-.59 1.43-1.15.31-.56.38-1.21.2-1.82a2.4 2.4 0 0 0-1.98-1.71l-.71-.1.07-.72c.01-.14.02-.27.02-.41a4.2 4.2 0 0 0-8.03-1.72l-.27.61-.63-.2C8.26 9.06 7.91 9 7.57 9Z"
+              /></svg
+          ></i>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <p class="file__item__name ellipsis" [ntcTooltip]="model.name">
+      {{ model.name }}
+    </p>
+  </div>
+
+  <!-- タグチップ表示エリア -->
+  <div class="file__item__tags" *ngIf="shouldDisplayTagChips()">
+    <ng-container *ngIf="getDisplayTags() as displayTags">
+      <!-- 最初のタグチップ -->
+      <modus-tooltip
+        *ngIf="displayTags.tags[0]"
+        [text]="displayTags.tags[0].label"
+        position="top"
+      >
+        <ntc-basic-chip
+          [value]="displayTags.tags[0].label"
+          [maxWidth]="'70px'"
+          [size]="'small'"
+          class="model-tag-chip clickable"
+          (click)="onTagClick(displayTags.tags[0].label, $event)"
+        ></ntc-basic-chip>
+      </modus-tooltip>
+
+      <!-- "..."チップ（タグが2個以上ある場合） -->
+      <modus-tooltip
+        *ngIf="displayTags.hasMore"
+        [text]="getAllTagsTooltipText()"
+        position="top"
+      >
+        <ntc-basic-chip
+          [value]="'...'"
+          [maxWidth]="'20px'"
+          [size]="'small'"
+          class="model-tag-chip more-tags"
+        ></ntc-basic-chip>
+      </modus-tooltip>
+    </ng-container>
+  </div>
+
+  <div class="file__item__right" *ngIf="!isEditMode && !isTagEditMode">
+    <div #actionElement class="file__item__detail">
+      <modus-button
+        button-style="borderless"
+        color="tertiary"
+        size="small"
+        icon-only="more_vertical"
+        (click)="toggleMenu($event)"
+      ></modus-button>
+
+      <div
+        #menuElement
+        class="file__item__detail__menu"
+        (click)="$event.stopPropagation()"
+      >
+        <div
+          *ngFor="let item of treeItemActions"
+          class="file__item__detail__menu__item"
+          (click)="handleChooseAction(item.key, $event)"
+          [ngClass]="{
+            actionDisabled: checkIfDisabled(item.key)
+          }"
+        >
+          <div class="file__item__detail__menu__item-label">
+            {{ item.label }}
+          </div>
+          <div *ngIf="item.divider" class="file__item__detail__menu__divider">
+            <div></div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        *ngIf="menuExpanded"
+        class="file__item__detail__backdrop"
+        (click)="toggleMenu($event)"
+      ></div>
+    </div>
+  </div>
+</div>
+<modus-modal
+  ntcModal
+  #confirmDeleteFileOrFolder
+  header-text="確認"
+  primary-button-text="削除する"
+  secondary-button-text="キャンセル"
+  [zIndex]="viewConstant.ModalZindex"
+  (primaryButtonClick)="handleOkDelete()"
+  (secondaryButtonClick)="closePopupConfirmDelete()"
+  [primaryButtonDisabled]="checkLocks"
+>
+  <div>
+    <p>{{ extractAppMessage('SOK4008', model?.name) }}</p>
+  </div>
+  <ntc-parts-components-basic-error-massage
+    *ngIf="errorMessage"
+    [message]="errorMessage"
+  ></ntc-parts-components-basic-error-massage>
+</modus-modal>
+
+<!-- MEMO: [3D Model Version] UI display version on file. Uncomment me if using this function -->
+<!-- <div class="file__item__right">
+  <ng-container
+    *ngIf="modelTcFileInfo && !modelTcFileInfo?.loading && modelTcFileInfo.file"
+  >
+    <span class="file__item__version"
+      >V{{ modelTcFileInfo.file.revision || '1' }}</span
+    >
+    <span class="file__item__detail" (click)="showProperty.emit(model)">
+      <i class="modus-icons" aria-hidden="true"> more_vertical </i>
+    </span>
+  </ng-container>
+  <ng-container
+    *ngIf="modelTcFileInfo?.loading || modelTcFileInfo === undefined"
+  >
+    <modus-spinner [size]="'14px'"></modus-spinner>
+  </ng-container>
+</div> -->

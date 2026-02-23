@@ -1,0 +1,52 @@
+@import './mixin.scss';
+
+.accordion {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #252a2e;
+  cursor: pointer;
+  padding: 16px 10px 8px 10px;
+  user-select: none;
+  border: none;
+  text-align: left;
+  outline: none;
+  transition: 0.4s;
+  background: transparent;
+
+  &__item-active {
+    background-color: $bg-light-gray;
+    display: block;
+  }
+
+  i {
+    color: #6a6e79;
+  }
+}
+
+.condensed {
+  color: $message_question_text;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.sticky-condensed {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+}
+
+.accordion:hover {
+  background-color: $message_question_bg;
+}
+
+.panel {
+  background-color: white;
+}
+
+.categoryLabel {
+  margin: 0px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
