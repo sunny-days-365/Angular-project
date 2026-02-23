@@ -1,0 +1,89 @@
+<div *ngFor="let item of dataAccordion; let i = index">
+  <modus-tooltip [text]="item.categoryForView.name" position="top">
+    <div
+      class="accordion condensed"
+      [id]="'accordion-file' + i"
+      [ngClass]="(isLoading$ | async) === false ? 'sticky-condensed' : ''"
+      (click)="toggleAccordion(item, i)"
+    >
+      <modus-checkbox
+        *ngIf="isEditMode === true"
+        #CheckBoxInput
+        [checked]="checkParent[i]"
+        (click)="handleClickBox($event, i)"
+      ></modus-checkbox>
+
+      <p class="categoryLabel">{{ item.categoryForView.name }}</p>
+      <i aria-hidden="true" class="modus-icons">{{
+        isCategoryExpand(item.categoryForView) ? 'expand_more' : 'chevron_right'
+      }}</i>
+    </div>
+  </modus-tooltip>
+  <div class="panel" [hidden]="!isCategoryExpand(item.categoryForView)">
+    <ng-container *ngFor="let model of item.modelForView; let j = index">
+      <ntc-project-detail-data-3d-view-parts-tree-item
+        class="accordion__item submenu"
+        [class.accordion__item-active]="currentModel?.id === model.id"
+        [model]="model"
+        [isEditMode]="isEditMode"
+        [isLoading]="isModelLoading(model)"
+        [isLoaded]="isModelLoaded(model)"
+        [isUnload]="isModelUnload(model)"
+        [isFailed]="isModelFailed(model)"
+        [isAssimilating]="isModelAssimilating(model)"
+        [isAssimilationBusy]="isModelAssimilationBusy(model)"
+        [modelTcFileInfo]="modelTcFileInfo?.[model.id]"
+        [modelKind]="item.categoryForView.id"
+        (modelSelected)="onModelSelected($event)"
+        (showProperty)="onShowPropertyView($event)"
+        (showEditForm)="onShowEditForm($event)"
+        (showExportPanel)="onShowExportPanel($event)"
+        (showHeightChangePanel)="onShowHeightChangePanel($event)"
+        (showConstructionTopography)="onShowConstructionTopographyPanel($event)"
+        (moveToTrash)="onMoveToTrash($event)"
+        [checked]="checkTree[i][j]"
+        (modelCheck)="modelCheck(i, j, $event)"
+        [isTagEditMode]="isTagEditMode"
+        [shouldShowTagChips]="shouldShowTagChips"
+        [tagSources]="tagSources"
+        [tagRelation]="tagRelation"
+        (restore)="restoreFromTrash($event)"
+        (openDeleteModalMulti)="onOpenDeleteModalMulti()"
+        (moveToTrashMulti)="onMoveToTrashMulti()"
+        (restoreFromTrashMulti)="onRestoreFromTrashMulti()"
+        (tagClicked)="onTagClicked($event)"
+      />
+    </ng-container>
+  </div>
+</div>
+
+<modus-modal
+  ntcModal
+  #confirmDeleteMultiModels
+  header-text="確認"
+  primary-button-text="削除する"
+  secondary-button-text="キャンセル"
+  [zIndex]="viewConstant.ModalZindex"
+  (primaryButtonClick)="handleOkDeleteMulti()"
+  (secondaryButtonClick)="closePopupConfirmDelete()"
+  [primaryButtonDisabled]="checkLocks"
+>
+  <div>
+    <p>{{ extractAppMessage('SOK4009', checkCount.toString()) }}</p>
+  </div>
+</modus-modal>
+
+<modus-modal
+  ntcModal
+  #confirmRestoreMultiModels
+  header-text="確認"
+  primary-button-text="ゴミ箱から元に戻す"
+  secondary-button-text="キャンセル"
+  [zIndex]="viewConstant.ModalZindex"
+  (primaryButtonClick)="handleOkRestoreMulti()"
+  (secondaryButtonClick)="closePopupConfirmRestore()"
+>
+  <div>
+    <p>{{ extractAppMessage('SOK4010', checkCount.toString()) }}</p>
+  </div>
+</modus-modal>
