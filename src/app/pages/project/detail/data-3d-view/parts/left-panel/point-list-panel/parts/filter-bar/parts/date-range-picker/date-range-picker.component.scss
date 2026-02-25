@@ -1,0 +1,97 @@
+@import './variables.scss';
+
+.date-range-picker {
+  position: relative;
+
+  &__label {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 6px 2px 6px 6px;
+    border: 1px solid $border-light-gray;
+    border-radius: 4px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $gray-0;
+    }
+
+    &:active {
+      background-color: #d0d0d7;
+    }
+
+    &__text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-wrap: nowrap;
+      max-width: 94px;
+    }
+
+    i {
+      user-select: none;
+      font-size: 18px;
+    }
+  }
+
+  &__menu {
+    position: absolute;
+    margin-top: 2px;
+    padding: 8px;
+    border-radius: 4px;
+    background-color: white;
+    box-shadow:
+      0 0 0.06rem rgba(54, 53, 69, 0.2),
+      0.12rem 0.12rem 0.5rem rgba(54, 53, 69, 0.3);
+    z-index: 1000;
+    left: -24px;
+    display: none;
+
+    ntc-modus-checkbox {
+      margin: 8px 0px;
+    }
+
+    &__picker {
+      padding: 0px 0px 8px 8px;
+
+      &__input {
+        display: flex;
+
+        ntc-modus-date-input {
+          width: 104px;
+        }
+      }
+
+      &__error {
+        font-size: 12px;
+        font-weight: 700;
+        color: $error;
+      }
+    }
+
+    &__separator {
+      height: 1px;
+      background-color: #d0d0d7;
+    }
+
+    modus-button {
+      float: right;
+      margin-top: 8px;
+      z-index: 0;
+    }
+  }
+
+  .expanded {
+    display: block;
+  }
+
+  &__backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: transparent;
+    z-index: 999;
+  }
+}
