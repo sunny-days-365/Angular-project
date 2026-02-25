@@ -1,0 +1,58 @@
+<div class="date-range-picker">
+  <div class="date-range-picker__label" (click)="toggleExpand()">
+    <span class="date-range-picker__label__text">{{
+      getSelectedDateRangeLabel()
+    }}</span>
+    <i class="modus-icons" aria-hidden="true">expand_more</i>
+  </div>
+
+  <div class="date-range-picker__menu" [ngClass]="{ expanded: expanded }">
+    <ntc-modus-checkbox
+      label="日付なし"
+      [checked]="showBlankItem"
+      (checkboxClick)="handleShowBlankItemChange()"
+    ></ntc-modus-checkbox>
+    <div class="date-range-picker__menu__picker">
+      <div class="date-range-picker__menu__picker__input">
+        <modus-date-picker>
+          <ntc-modus-date-input
+            #startDateInput
+            format="yyyy/mm/dd"
+            allowedCharsRegex="[\d/]"
+            show-calendar-icon="true"
+            placeholder="開始日"
+            [disabled]="showBlankItem"
+            (valueChange)="onStartDateSelect($event)"
+          ></ntc-modus-date-input>
+        </modus-date-picker>
+
+        <modus-date-picker>
+          <ntc-modus-date-input
+            #endDateInput
+            format="yyyy/mm/dd"
+            allowedCharsRegex="[\d/]"
+            show-calendar-icon="true"
+            placeholder="終了日"
+            [disabled]="showBlankItem"
+            (valueChange)="onEndDateSelect($event)"
+          ></ntc-modus-date-input>
+        </modus-date-picker>
+      </div>
+    </div>
+
+    <div class="date-range-picker__menu__separator"></div>
+
+    <modus-button
+      button-style="borderless"
+      color="secondary"
+      (buttonClick)="clearDates()"
+      >クリアー</modus-button
+    >
+  </div>
+
+  <div
+    *ngIf="expanded"
+    class="date-range-picker__backdrop"
+    (click)="expanded = false"
+  ></div>
+</div>
