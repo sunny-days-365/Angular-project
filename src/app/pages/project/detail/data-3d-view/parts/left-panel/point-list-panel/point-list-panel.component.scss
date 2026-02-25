@@ -1,0 +1,44 @@
+@import './variables.scss';
+
+.point-list-panel {
+  position: relative;
+
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+
+  &__title {
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    border-bottom: 1px solid black;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 7px;
+    background-color: $white;
+
+    &__edit-btn {
+      margin-left: auto;
+    }
+  }
+
+  &__content {
+    padding: 0;
+    position: relative;
+    margin-bottom: 50px;
+    width: 100%;
+
+    &__loader {
+      display: flex;
+      justify-content: center;
+      margin-top: 50%;
+    }
+
+    .hidden {
+      display: none;
+    }
+  }
+}
