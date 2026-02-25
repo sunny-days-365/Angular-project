@@ -1,0 +1,49 @@
+<modus-tooltip [text]="tooltipText" position="right" #tooltip_item>
+  <div *ngIf="data" class="list-item">
+    <div class="list-item__info">
+      <div class="list-item__info__name">
+        <modus-checkbox
+          *ngIf="
+            editMode !== undefined && editMode !== EditModeForTemplate.Init
+          "
+          #CheckBoxInput
+          (checkboxClick)="handleCheckBoxClick()"
+          [checked]="checked"
+        ></modus-checkbox>
+        <span (click)="handleItemClick()">{{ data.name }}</span>
+      </div>
+      <div class="list-item__info__original-name" (click)="handleItemClick()">
+        {{ file?.name }}
+      </div>
+    </div>
+    <div
+      *ngIf="!isUpdating"
+      class="list-item__details"
+      (click)="handleItemClick()"
+    >
+      <div class="list-item__details__point-type">
+        <span>
+          {{ data.pointType }}
+        </span>
+        <modus-spinner
+          *ngIf="isZooming"
+          size="14px"
+          class="list-item__details__focus_item"
+        ></modus-spinner>
+        <i
+          *ngIf="!isZooming"
+          class="modus-icons"
+          aria-hidden="true"
+          (click)="onZoomClicked($event)"
+          >location_point</i
+        >
+      </div>
+      <div class="list-item__details__survey-date-time">
+        {{ surveyDateTime }}
+      </div>
+    </div>
+    <div *ngIf="isUpdating" class="list-item__update-spinner">
+      <modus-spinner size="1.5rem"></modus-spinner>
+    </div>
+  </div>
+</modus-tooltip>
